@@ -1,0 +1,13 @@
+{
+  "name": "SoftShake 2013 - Ruby on Rails introduction workshop",
+  "description": "Example Presentation",
+  "author": "Dominique Broeglin, David Hodgetts",
+  "templates" : {
+      "special" : "simple.tpl"
+  },
+  "pause_msg": "Paused !!!",
+  "sections": [
+    {"section":"0-intro"},
+    {"section":"1-ruby"}
+  ]
+}
