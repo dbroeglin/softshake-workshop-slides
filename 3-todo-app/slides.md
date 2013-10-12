@@ -16,6 +16,7 @@ Let's build a TODO app.
 
 ouvrir http://localhost:3000 
 
+
 !SLIDE bullets
 # abracadabra
     @@@ sh
@@ -80,13 +81,24 @@ tasks#new -> voir la vue
 
 
 !SLIDE bullets
+# on aimerait la home sur tasks#index
+
+changer config/routes.rb et rajouter
+
+    root "tasks#index"
+
+
+!SLIDE bullets
 # déployons dans les nuages avec Heroku
 
 https://devcenter.heroku.com/articles/quickstart
 
 https://devcenter.heroku.com/articles/getting-started-with-rails4
 
-modifier la gemfile (./gemfile)
+!SLIDE bullets
+#modifier la gemfile (./gemfile)
+
+rajouter
 
     @@@ ruby 
     ruby "1.9.3"
@@ -98,11 +110,16 @@ modifier la gemfile (./gemfile)
 
 remplacer
 
+    @@@ ruby
     gem 'sqlite3'
 
     group :development, :test do
         gem 'sqlite3'
     end
+
+
+!SLIDE bullets
+# modifier la config db
 
 modifier config/database.yml
 
@@ -122,30 +139,73 @@ modifier config/database.yml
       username: myapp
       password:
 
-installer les dépendances
+!SLIDE bullets
+# installer les dépendances
 
     @@@ sh
     $ bundle install
 
 
-
-initialiser un repo git
+!SLIDE bullets
+# initialiser un repo git
 
     @@@ sh 
     $ git init
     $ git add .
     $ git commit -m "init"
 
-créer l'app heroku (git remote show)
+
+!SLIDE bullets
+# créer l'app sur heroku
     
     @@@ sh 
     $ heroku create
 
-et on déploit
+et déploiement
 
     @@@ sh
     $ git push heroku master
     $ heroku run rake db:migrate
+    $ heroku open
+
+enjoy
+
+!SLIDE bullets
+# make it nice (bootstrap)
+
+rajoute au gemfile
+
+    @@@ ruby
+    !SLIDE bullets
+    gem 'bootstrap-sass', '2.3.2.0'
+
+installer (restart server après)
+    
+    bundle install
+
+configurer l'asset pipeline
+
+    @@@ ruby
+    module SampleApp
+      class Application < Rails::Application
+        .
+        .
+        .
+        config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
+      end
+    end
+
+créer un custom css
+
+    app/assets/stylesheets/custom.css.scss
+
+rajouter
+
+    @import "bootstrap";
+
+    body {
+        margin: 20pt;
+    }
 
 
 
