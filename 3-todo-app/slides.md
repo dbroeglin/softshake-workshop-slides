@@ -80,6 +80,79 @@ tasks#new -> voir la vue
 
 
 !SLIDE bullets
+# déployons dans les nuages avec Heroku
+
+https://devcenter.heroku.com/articles/quickstart
+
+https://devcenter.heroku.com/articles/getting-started-with-rails4
+
+modifier la gemfile (./gemfile)
+
+    @@@ ruby 
+    ruby "1.9.3"
+
+    group :production do
+        gem 'pg', '0.15.1'
+        gem 'rails_12factor', '0.0.2'
+    end
+
+remplacer
+
+    gem 'sqlite3'
+
+    group :development, :test do
+        gem 'sqlite3'
+    end
+
+modifier config/database.yml
+
+    @@@ ruby 
+    production:
+      adapter: sqlite3
+      database: db/production.sqlite3
+      pool: 5
+      timeout: 5000
+
+    # devient:
+    production:
+      adapter: postgresql
+      encoding: unicode
+      database: myapp_production
+      pool: 5
+      username: myapp
+      password:
+
+installer les dépendances
+
+    @@@ sh
+    $ bundle install
+
+
+
+initialiser un repo git
+
+    @@@ sh 
+    $ git init
+    $ git add .
+    $ git commit -m "init"
+
+créer l'app heroku (git remote show)
+    
+    @@@ sh 
+    $ heroku create
+
+et on déploit
+
+    @@@ sh
+    $ git push heroku master
+    $ heroku run rake db:migrate
+
+
+
+
+
+
+!SLIDE bullets
     @@@ sh
     rails generate model project \
         title:string completed:boolean
