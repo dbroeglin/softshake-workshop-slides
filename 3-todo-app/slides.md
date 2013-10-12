@@ -212,10 +212,61 @@ rajouter
 
 
 
+
 !SLIDE bullets
+# m dans mvc
     @@@ sh
-    rails generate model project \
-        title:string completed:boolean
+    rails generate model project title:string \
+    completed:boolean due_date:date
+
+task belongs_to project
+
+rake db:migrate
+
+ouvrir app/model/project.rb
+
+activeRecord (créer modèle automagiquement depuis une table)
+
+rails console 
+
+créer et sauver un projet
+créer et sauver une tache
+tenter d'ajouter un projet à une tache et oups
+rails g migration add_project_id_to_task project_id:integer
+rake db:migrate
+on réouvre et on associe un projet à une tâche.
+on s'est brûlé les doigts, donc recours aux tests.
+
+!SLIDE bullets
+# test de la vue (intégration de la sélection du projet)
+
+rajouter au gemfile
+
+    gem 'capybara', '2.1.0'
+
+bundle install
+
+rajout -> test/test_helper.rb :
+
+    class ActionDispatch::IntegrationTest
+      # Make the Capybara DSL available in all integration tests
+      include Capybara::DSL
+    end
+
+on génére le fichier pour les tests:
+
+    rails generate integration_test task_flows
+
+édition du test:
+
+    
+
+
+
+
+
+
+
 
 
 !SLIDE bullets
