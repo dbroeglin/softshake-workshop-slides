@@ -5,20 +5,21 @@
 
 Let's build a TODO app.
 
-!SLIDE bullets
+!SLIDE small 
 # Générons notre première application
 
     @@@ sh
-    rails new todo
-    cd todo
-    rails server
-    # ouvrir nouveau terminal.
+    $ rails new todo
+    $ cd todo
+    $ rails server
 
-ouvrir http://localhost:3000 
+- ouvrir nouveau terminal.
+- ouvrir http://localhost:3000 
 
 
 !SLIDE bullets
 # abracadabra
+
     @@@ sh
     rails generate scaffold task \
         title:string completed:boolean
@@ -29,12 +30,11 @@ rafraîchir le browser, : (
 
 !SLIDE bullets
 # Obey 
+
     @@@ sh
     rake db:migrate RAILS_ENV=development 
 
-regarder le dossier db/migrate
-
-    db/migrate/20131012094430_create_tasks.rb
+db/migrate/20131012094430_create_tasks.rb
 
     @@@ ruby
     class CreateTasks < ActiveRecord::Migration
