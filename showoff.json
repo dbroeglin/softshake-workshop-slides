@@ -8,6 +8,8 @@
   "pause_msg": "Paused !!!",
   "sections": [
     {"section":"0-intro"},
-    {"section":"1-ruby"}
+    {"section":"1-ruby"},
+    {"section":"2-install"},
+    {"section":"3-todo-app"}
   ]
 }

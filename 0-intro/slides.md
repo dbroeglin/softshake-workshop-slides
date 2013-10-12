@@ -1,7 +1,8 @@
-<!SLIDE title-slide>
+!SLIDE title-slide
 .notes first slide
 
-# Ruby on Rails introduction workshop #
+# Ruby on Rails introduction workshop
 
-## Dominique Broeglin, David Hodgetts ##
+## Dominique Broeglin, David Hodgetts
 
+### @dbroeglin, @
