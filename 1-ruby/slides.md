@@ -8,11 +8,11 @@
 !SLIDE bullets incremental small
 # Particularités du langage
 
-- Perl, Lisp, SmallTalk
+- Perl + Lisp + SmallTalk
 - tout est objet
 - tout est expression
 - interprété et dynamiquement typé
-- narcissique (oups on voulait dire -> réflexif)
+- narcissique (réflexif)
 - dsl orienté
 
 !SLIDE bullets small
@@ -43,15 +43,6 @@
  		[].respond_to?(:each)
 
 !SLIDE bullets small
-# parens optionnel
-
-	@@@ Ruby
-	# exemple rspec (framework test)
-	it "should work" do
-		my_obj.my_method.should be_valid
-	end
-
-!SLIDE bullets small
 # bloc party
 
 	@@@ Ruby
@@ -66,6 +57,37 @@
 	# in js speak
 	["foo", "bar"].forEach(function(s) { 
 		console.log (s); });
+
+!SLIDE bullets small
+# parens optionnel
+
+	@@@ Ruby
+	# exemple rspec (framework test)
+	it "should work" do
+		my_obj.my_method.should be_valid
+	end
+
+!SLIDE bullets small
+# symbols
+
+atomic data type (il est sa propre valeur)  
+une allocation en mémoire par symbol (key lookup efficace)
+
+	@@@ Ruby
+	:a_symbol.object_id == :a_symbol.object_id -> true
+	"a_symbol".object_id == "a_symbol".object_id -> false
+
+!SLIDE bullets small
+# structures de données avec définitions litérales
+
+	@@@ Ruby
+	my_array = [0, 1, 2]
+	my_array[0]   -> 0
+
+	my_hash = {:a_key => 10, :another_key => "another value"}
+	my_hash[:a_key]   -> 10
+
+
 
 !SLIDE bullets small
 # objet
@@ -109,6 +131,56 @@
 	p = Person.new
 	p.name = "pierre"
 	p.name => "pierre"
+
+!SLIDE bullets small
+# single inheritance 
+
+	@@@ Ruby
+	class A
+		def a
+		end
+	end
+
+	class B < A
+		def b
+		end
+	end
+
+	B.new.a
+
+!SLIDE bullets small
+# single inheritance with mixins
+
+	@@@ Ruby
+	module MyModule
+		def my_mixin
+		end
+	end
+	class A
+		include MyModule
+	end
+
+	B.new.my_mixin
+
+!SLIDE bullets small
+# monkey patching
+![monkey patch](monkey_patch.jpg)
+
+!SLIDE bullets small
+# monkey patching
+
+
+	@@@ Ruby
+	class String
+		def palindrome?
+			self == self.reverse
+		end
+	end
+
+	"deified".palindrome?
+
+
+!SLIDE 
 
 
 
