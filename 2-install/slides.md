@@ -8,11 +8,13 @@ http://railsinstaller.org/en
 (bleeding edge pour rails 4)
 
 !SLIDE bullets
-# Linux
-
-!SLIDE bullets
 # Mac OS X
 http://guides.railsgirls.com/install/
+
+!SLIDE bullets
+# Linux
+http://guides.railsgirls.com/install/
+
 
 !SLIDE bullets
 # mise à jour rails sur la version 4

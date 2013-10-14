@@ -12,7 +12,7 @@
 - tout est objet
 - tout est expression
 - interprété et dynamiquement typé
-- narcissique (réflexif)
+- réflexif
 - dsl orienté
 
 !SLIDE bullets small
@@ -70,8 +70,10 @@
 !SLIDE bullets small
 # symbols
 
-atomic data type (il est sa propre valeur)  
-une allocation en mémoire par symbol (key lookup efficace)
+lightweight string (kind of...)
+immutable  
+une allocation en mémoire par symbol (donc comparaison rapide, key lookup)
+
 
 	@@@ Ruby
 	:a_symbol.object_id == :a_symbol.object_id -> true
@@ -100,7 +102,7 @@ une allocation en mémoire par symbol (key lookup efficace)
 
 
 !SLIDE bullets small
-# encapsulé, pas d'accés direct à l'état interne
+# encapsulé, pas d'accès direct à l'état interne
 
 	@@@ Ruby
 	class Person
@@ -180,7 +182,11 @@ une allocation en mémoire par symbol (key lookup efficace)
 	"deified".palindrome?
 
 
-!SLIDE 
+!SLIDE bullets small incremental
+# ruby flexible et dynamique
+
+- dsl ready  
+- rails un dsl pour le web ?
 
 
 

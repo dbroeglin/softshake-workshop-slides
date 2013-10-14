@@ -28,13 +28,15 @@ Let's build a TODO app.
 
 rafraîchir le browser, : (
 
-!SLIDE bullets
-# Obey 
+!SLIDE bullets small
+# marche pas mais l'erreur est riche d'info 
 
     @@@ sh
-    rake db:migrate RAILS_ENV=development 
+    $ rake db:migrate RAILS_ENV=development 
+    
+\
+observer db/migrate/20131012094430_create_tasks.rb
 
-db/migrate/20131012094430_create_tasks.rb
 
     @@@ ruby
     class CreateTasks < ActiveRecord::Migration
@@ -48,19 +50,22 @@ db/migrate/20131012094430_create_tasks.rb
       end
     end
 
-rafraîchir le browser, localhost:3000/tasks
+- rafraîchir le browser, localhost:3000/tasks
 
-!SLIDE bullets
-# pourquoi ça marche
+!SLIDE bullets small
+# comment ça marche (restful resource)
 
-regarder config/routes.rb
+
 
     @@@ ruby
+    # config/routes.rb
     resources :tasks
 
-    @@@ sh
-    rake routes
+!SLIDE bullets small
+# $ rake routes
 
+    @@@ sh
+    
           Prefix Verb   URI Pattern               Controller#Action
         tasks GET    /tasks(.:format)          tasks#index
               POST   /tasks(.:format)          tasks#create
@@ -71,16 +76,18 @@ regarder config/routes.rb
               PUT    /tasks/:id(.:format)      tasks#update
               DELETE /tasks/:id(.:format)      tasks#destroy
 
-!SLIDE bullets 
-# REST
 
-!SLIDE bullets
+!SLIDE bullets small
+# quel est le chemin d'une nouvelle tâche
+  
+    @@@ sh
+    # app/controller/tasks_controller.rb
+    tasks#new -> voir la vue
 
-montrer le chemin de la construction d'une nouvelle task
-tasks#new -> voir la vue
+    # app/views/tasks/new.html.erb
 
 
-!SLIDE bullets
+!SLIDE bullets small
 # on aimerait la home sur tasks#index
 
 changer config/routes.rb et rajouter
@@ -95,12 +102,12 @@ https://devcenter.heroku.com/articles/quickstart
 
 https://devcenter.heroku.com/articles/getting-started-with-rails4
 
-!SLIDE bullets
+!SLIDE bullets small
 #modifier la gemfile (./gemfile)
 
 rajouter
 
-    @@@ ruby 
+    @@@ Ruby 
     ruby "1.9.3"
 
     group :production do
@@ -108,9 +115,11 @@ rajouter
         gem 'rails_12factor', '0.0.2'
     end
 
+!SLIDE bullets small
+
 remplacer
 
-    @@@ ruby
+    @@@ Ruby
     gem 'sqlite3'
 
     group :development, :test do
@@ -118,7 +127,7 @@ remplacer
     end
 
 
-!SLIDE bullets
+!SLIDE bullets small
 # modifier la config db
 
 modifier config/database.yml
@@ -139,14 +148,14 @@ modifier config/database.yml
       username: myapp
       password:
 
-!SLIDE bullets
+!SLIDE bullets small
 # installer les dépendances
 
     @@@ sh
     $ bundle install
 
 
-!SLIDE bullets
+!SLIDE bullets small
 # initialiser un repo git
 
     @@@ sh 
@@ -155,7 +164,7 @@ modifier config/database.yml
     $ git commit -m "init"
 
 
-!SLIDE bullets
+!SLIDE bullets small
 # créer l'app sur heroku
     
     @@@ sh 
@@ -170,12 +179,12 @@ et déploiement
 
 enjoy
 
-!SLIDE bullets
+!SLIDE bullets small
 # make it nice (bootstrap)
 
 rajoute au gemfile
 
-    @@@ ruby
+    @@@ Ruby
     !SLIDE bullets
     gem 'bootstrap-sass', '2.3.2.0'
 
@@ -183,10 +192,12 @@ installer (restart server après)
     
     bundle install
 
+!SLIDE bullets small
 configurer l'asset pipeline
 
-    @@@ ruby
-    module SampleApp
+    @@@ Ruby
+    # config/application.rb
+    module Todo
       class Application < Rails::Application
         .
         .
@@ -195,6 +206,7 @@ configurer l'asset pipeline
       end
     end
 
+!SLIDE bullets small
 créer un custom css
 
     app/assets/stylesheets/custom.css.scss
@@ -208,36 +220,40 @@ rajouter
     }
 
 
-
-
-
-
-
-!SLIDE bullets
+!SLIDE bullets small
 # m dans mvc
     @@@ sh
     rails generate model project title:string \
     completed:boolean due_date:date
 
-task belongs_to project
-
+!SLIDE bullets small
+# activerecord
 rake db:migrate
 
 ouvrir app/model/project.rb
 
-activeRecord (créer modèle automagiquement depuis une table)
+!SLIDE bullets small
+
+    @@@ Ruby
+    #app/models/task.rb
+    class Task < ActiveRecord::Base
+      belongs_to :project
+    end
+
+
+!SLIDE bullets small
+# rails console
 
 rails console 
 
-créer et sauver un projet
-créer et sauver une tache
-tenter d'ajouter un projet à une tache et oups
-rails g migration add_project_id_to_task project_id:integer
-rake db:migrate
-on réouvre et on associe un projet à une tâche.
-on s'est brûlé les doigts, donc recours aux tests.
+créer et sauver un projet  
+créer et sauver une tache  
+tenter d'ajouter un projet à une tache et oups  
+rails g migration add_project_id_to_task project_id:integer  
+rake db:migrate  
 
-!SLIDE bullets
+
+!SLIDE bullets small
 # test de la vue (intégration de la sélection du projet)
 
 rajouter au gemfile
@@ -246,17 +262,20 @@ rajouter au gemfile
 
 bundle install
 
-rajout -> test/test_helper.rb :
+!SLIDE bullets small
 
+    @@@ Ruby
+    # test/test_helper.rb
     class ActionDispatch::IntegrationTest
       # Make the Capybara DSL available in all integration tests
       include Capybara::DSL
     end
 
-on génére le fichier pour les tests:
+!SLIDE bullets small
 
-    rails generate integration_test task_flows
+    $ rails generate integration_test task_flows
 
+!SLIDE bullets small
 édition du test:
 
     
