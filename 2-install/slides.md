@@ -7,6 +7,11 @@
 http://railsinstaller.org/en
 (bleeding edge pour rails 4)
 
+!SLIDE Bullets small
+## ansicon (coloration terminal)
+install http://adoxa.hostmyway.net/ansicon/ for colour codes in cli
+(copy x64 or x86 folder somewhere in path, run "ansicon.exe" from console)
+
 !SLIDE bullets
 # Mac OS X
 http://guides.railsgirls.com/install/

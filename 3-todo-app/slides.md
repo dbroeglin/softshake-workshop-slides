@@ -182,7 +182,7 @@ enjoy
 !SLIDE bullets small
 # make it nice (bootstrap)
 
-rajoute au gemfile
+rajout au gemfile
 
     @@@ Ruby
     !SLIDE bullets
@@ -219,6 +219,64 @@ rajouter
         margin: 20pt;
     }
 
+!SLIDE bullets small
+
+enveloper le <%= yield %> dans un div avec class="container" (layout)
+
+!SLIDE bullets small
+## partials (créer un header)
+
+créer layouts/_header.html.erb
+    
+    @@@ html
+    <header class="navbar navbar-fixed-top navbar-inverse">
+      <div class="navbar-inner">
+        <div class="container">
+          <%= link_to "JustDidIt", root_path, id: "logo" %>
+        </div>
+      </div>
+    </header>
+
+!SLIDE bullets small
+rajouter  <%= render 'layouts/header' %> dans layout
+
+rafraîchir le browser, peut mieux faire...
+
+!SLIDE bullets small
+changer custom.css.scss
+    
+    @@@ css
+    #logo {
+      float: left;
+      margin-right: 10px;
+      font-size: 1.7em;
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: -1px;
+      padding-top: 9px;
+      font-weight: bold;
+      line-height: 1;
+    }
+
+    #logo:hover {
+      color: #fff;
+      text-decoration: none;
+    }
+
+!SLIDE bullets small
+et encore
+
+    @@@ css
+    body {
+      margin: 20pt;
+      padding-top: 30px;
+    }
+
+!SLIDE bullets small
+# exercises
+
+- rajouter un footer
+- styler les link en bouttons
 
 !SLIDE bullets small
 # m dans mvc
@@ -278,32 +336,74 @@ bundle install
 !SLIDE bullets small
 édition du test:
 
-    
+    @@@ Ruby
+    class TaskFlowsTest < ActionDispatch::IntegrationTest
+      test "create new task" do
+        project = Project.create(title: 'Test project')
+
+        visit(new_task_path())
+        assert page.has_content?('New task')
+        within("select[name='task[project_id]']") do
+            option = find("option[value='#{project.id}']")
+            assert_not option.nil?
+            assert_equal project.title, option.text
+        end
+      end
+    end
 
 
+!SLIDE bullets small
+# limite des générateurs.
 
+la création d'un nouvelle tâche permet de setter sa complétion ?
+faisons que Task.new.completed == false (valeur par défaut)
 
+!SLIDE bullets small
 
+    @@@ Ruby
+    # test/models/task_test.rb
+    test "a new task should not be completed" do
+      t = Task.new
+      assert t.completed == false
+    end
 
+!SLIDE bullet small
+# une migration
+rails g migration add_default_value_to_completed_attribute
 
+!SLIDE bullet small
+# le contenu de la migration
 
+    @@@ db/migrate/timestamp_add_default_value_to_completed_attribute
+    class AddDefaultValueToCompletedAttribute < ActiveRecord::Migration
+      def up
+          change_column :tasks, :completed, :boolean, :default => false
+      end
 
-!SLIDE bullets
-Edit tests/integartion...
-    @@@ sh
-    rake test 
-        title:string completed:boolean
+      def down
+          change_column :tasks, :completed, :boolean, :default => nil
+      end
+    end
 
-!SLIDE bullets
-    @@@ sh
-    rails generate model project \
-        title:string completed:boolean
+!SLIDE bullet small
+# rake test -> green
 
-!SLIDE bullets
-Exercise: add validation to Task.title (with tests)
+!SLIDE bullet small
+# cleanup de la vue
 
-!SLIDE bullets
-Exercise: Add task priorities
+enlever
+
+    @@@ html
+    <div class="field">
+      <%= f.label :completed %><br>
+      <%= f.check_box :completed %>
+    </div>
+
+!SLIDE bullets small
+# Exercises
+
+- rajout validation to Task.title (with tests)
+- changer rediriger new task sucess sur la home
 
 !SLIDE subsection
 .notes ouvrir un compte pour les tests
