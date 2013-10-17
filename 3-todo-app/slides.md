@@ -29,16 +29,12 @@ Let's build a TODO app.
 rafraîchir le browser, : (
 
 !SLIDE bullets small
-# marche pas mais l'erreur est riche d'info 
+# l'erreur nous indique la solution 
 
-    @@@ sh
+    @@@ Ruby
     $ rake db:migrate RAILS_ENV=development 
-    
-\
-observer db/migrate/20131012094430_create_tasks.rb
 
-
-    @@@ ruby
+    # db/migrate/20131012094430_create_tasks.rb
     class CreateTasks < ActiveRecord::Migration
       def change
         create_table :tasks do |t|
@@ -54,8 +50,6 @@ observer db/migrate/20131012094430_create_tasks.rb
 
 !SLIDE bullets small
 # comment ça marche (restful resource)
-
-
 
     @@@ ruby
     # config/routes.rb
@@ -273,6 +267,13 @@ et encore
     }
 
 !SLIDE bullets small
+et encore
+
+rajouter la classe table à la table dans app/views/tasks/index.html.erb
+
+
+
+!SLIDE bullets small
 # exercises
 
 - rajouter un footer
@@ -404,6 +405,83 @@ enlever
 
 - rajout validation to Task.title (with tests)
 - changer rediriger new task sucess sur la home
+
+
+!SLIDE bullets small
+dans Task#index, remplacer show et par "it's done" button
+
+!SLIDE bullets small
+    le test
+
+    @@@ ruby
+    # test/integration/task_flows_test.rb
+    test "task index should allow user to mark task as done" do
+      visit(tasks_path)
+      assert page.has_link?('I did it') # will fail if no tasks in collection
+    end
+
+!SLIDE bullets small
+    la route
+
+    @@@ ruby
+    # routes.rb
+    patch 'tasks/mark_completed/:id' => "tasks#mark_completed", as: :mark_task_completed 
+
+!SLIDE bullets small
+    la vue
+
+    @@@ ruby
+    # app/views/tasks/index.html.erb
+    <td><%= link_to 'I did it', mark_task_completed_path(task), method: :patch %></td>
+    <td><%= link_to 'Edit', edit_task_path(task) %></td>
+    <td><%= link_to 'Destroy', task, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+
+!SLIDE bullets small
+le test
+
+    @@@ ruby
+    test "task index should allow user to mark task as done" do
+      task_title = "test completion"
+      t = Task.create(title: task_title)
+      visit(tasks_path)
+      assert page.has_link?('I did it') # will fail if no tasks in collection
+      dom_element = all(:css, 'tr').last
+      within(dom_element) do
+          click_on('I did it')
+      end
+      updated_dom_element = all(:css, 'tr').last
+      assert updated_dom_element.has_content?("true")
+    end
+
+!SLIDE bullets small
+le controller
+
+    @@@ ruby
+    def mark_completed
+      set_task
+      respond_to do |format|
+        if @task.mark_as_completed
+          puts "yeah"
+          format.html { redirect_to tasks_path, notice: 'Task was successfully updated.' }
+          format.json { head :no_content }
+        else
+          format.html { redirect_to tasks_path, notice: 'the task has not been marked complete' }
+          format.json { render json: @task.errors, status: :unprocessable_entity }
+        end
+      end
+    end
+
+!SLIDE bullets small
+le modèle
+
+    @@@ ruby
+    class Task < ActiveRecord::Base
+    belongs_to :project
+      def mark_as_completed
+        update(completed: true)
+      end
+    end
+
 
 !SLIDE subsection
 .notes ouvrir un compte pour les tests
