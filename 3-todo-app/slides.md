@@ -49,7 +49,7 @@ rafraîchir le browser, : (
 - rafraîchir le browser, localhost:3000/tasks
 
 !SLIDE bullets small
-# comment ça marche (restful resource)
+# comment ça marche (CRUD "restful" resource)
 
     @@@ ruby
     # config/routes.rb
@@ -87,6 +87,18 @@ rafraîchir le browser, : (
 changer config/routes.rb et rajouter
 
     root "tasks#index"
+
+!SLIDE bullets small
+# mieux comprendre les interactions entre les vues et les controlleur
+
+debug params
+
+    @@@ html
+    # app/views/layout/application.html.erb
+    <body>
+      <%= yield %>
+      <%= debug(params) if Rails.env.development? %>
+    </body>
 
 
 !SLIDE bullets
@@ -304,9 +316,11 @@ ouvrir app/model/project.rb
 # rails console
 
 rails console 
+rails c --sandbox (rollback all db changes on exit)
 
 créer et sauver un projet  
 créer et sauver une tache  
+Task.create vs Task.create! (how do you handle validation failure)
 tenter d'ajouter un projet à une tache et oups  
 rails g migration add_project_id_to_task project_id:integer  
 rake db:migrate  
