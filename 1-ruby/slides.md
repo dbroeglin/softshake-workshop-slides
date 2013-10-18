@@ -13,7 +13,7 @@
 - tout est expression
 - interprété et dynamiquement typé
 - réflexif
-- dsl orienté
+- dsl orienté (meta programming et all)
 
 !SLIDE bullets small
 # tout est objet
@@ -26,10 +26,11 @@
 # tout est expression
 	
 		@@@ Ruby
- 		unhealthy_food = if true then 
- 			"chunky bacon" 
- 		else "potatoes" 
- 		end
+ 		unhealthy_food = if true  
+			"chunky bacon" 
+		else 
+			"potatoes" 
+		end
 
 !SLIDE bullets small
 # dynamiquement typé
@@ -86,7 +87,8 @@ une allocation en mémoire par symbol (donc comparaison rapide, key lookup)
 	my_array = [0, 1, 2]
 	my_array[0]   -> 0
 
-	my_hash = {:a_key => 10, :another_key => "another value"}
+	hash_old_school = {:a_key => 10, :another_key => "another value"}
+	hash_new_school = {a_key: 10, another_key: "another value"}
 	my_hash[:a_key]   -> 10
 
 
@@ -132,7 +134,7 @@ une allocation en mémoire par symbol (donc comparaison rapide, key lookup)
 
 	p = Person.new
 	p.name = "pierre"
-	p.name => "pierre"
+	puts p.name
 
 !SLIDE bullets small
 # single inheritance 
