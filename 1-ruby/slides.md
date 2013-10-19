@@ -13,15 +13,25 @@
 - Réflexif
 - Orienté DSL (meta-programmation)
 
+
 !SLIDE bullets small
-# Tout est objet
+# Interpréteur de commandes (REPL)
+
+    @@@ sh
+    irb
+    irb(main):001:0> 1 + 2
+    => 3
+
+!SLIDE bullets small
+# Tout est ...
+
+## ... objet
 
     @@@ Ruby
     10.abs
     true.class
 
-!SLIDE bullets small
-# Tout est expression
+## ... expression
 
     @@@ Ruby
     unhealthy_food = if true
@@ -30,8 +40,23 @@
       "potatoes"
     end
 
+
 !SLIDE bullets small
 # Dynamiquement et fortement typé
+
+    @@@ Ruby
+    a = "potatoes"
+    puts a.class
+
+    a = 1 + 5
+    puts a.class
+
+    true.class
+
+    String.class
+
+!SLIDE bullets small
+# "Duck typing" (1/2)
 
 Si ça ressemble à un canard, si ça nage comme un canard et si ça 
 cancane comme un canard, c'est qu'il s'agit sans doute d'un canard.
@@ -39,10 +64,22 @@ cancane comme un canard, c'est qu'il s'agit sans doute d'un canard.
 ![quack](duck_typing.jpg)
 
 !SLIDE bullets small
-# réflexif
+# "Duck typing" (2/2)
+
+    @@@Ruby
+    def compute(a, b, c)
+      (a + b) * c
+    end
+    
+    compute(1, 2, 3)
+    compute("Hello ", "world! ", 3)
+
+!SLIDE bullets small
+.notes todo: keep? 
+# Réflexif
 
     @@@ Ruby
-     [].respond_to?(:each)
+    [].respond_to?(:each)
 
 !SLIDE bullets small
 # Bloc party
@@ -60,133 +97,139 @@ cancane comme un canard, c'est qu'il s'agit sans doute d'un canard.
     ["foo", "bar"].forEach(function(s) { 
       console.log (s); });
 
-!SLIDE bullets small
-# parens optionnel
-
-  @@@ Ruby
-  # exemple rspec (framework test)
-  it "should work" do
-    my_obj.my_method.should be_valid
-  end
+    [1, 10, 25].map { |d| "#{d} km"}.join(", ")
 
 !SLIDE bullets small
-# symbols
+# Parenthèses optionnelles
 
-lightweight string (kind of...)
-immutable  
-une allocation en mémoire par symbol (donc comparaison rapide, key lookup)
-
-
-  @@@ Ruby
-  :a_symbol.object_id == :a_symbol.object_id -> true
-  "a_symbol".object_id == "a_symbol".object_id -> false
-
-!SLIDE bullets small
-# structures de données avec définitions litérales
-
-  @@@ Ruby
-  my_array = [0, 1, 2]
-  my_array[0]   -> 0
-
-  hash_old_school = {:a_key => 10, :another_key => "another value"}
-  hash_new_school = {a_key: 10, another_key: "another value"}
-  my_hash[:a_key]   -> 10
-
-
-
-!SLIDE bullets small
-# objet
-
-  @@@ Ruby
-  class Person
-  end
-
-  p = Person.new
-
-
-!SLIDE bullets small
-# encapsulé, pas d'accès direct à l'état interne
-
-  @@@ Ruby
-  class Person
-
-    def name
-      @name
+    @@@ Ruby
+    # exemple rspec (framework de test)
+    it "should work" do
+      my_obj.my_method.should be_valid
     end
 
-    def name=(value)
-      @name = value
+    # au lieu de :
+    it("should work") do
+      my_obj.my_method().should(be_valid())
     end
 
-  end
+!SLIDE bullets small
+# Symboles 
 
-  p = Person.new
-  p.name = "pierre"
-  puts p.name
+Sorte de "string" léger et immutable  
+
+    @@@ Ruby
+    :first_name.class
+    
+    "first_name".to_sym
+    :first_name.to_s
+
+    User.find_by(:first_name => "Dan")
+
+    # en C#:
+    public const string FIRST_NAME_COL = "first_name";
+
+    # en Java:
+    public static final String FIRST_NAME_COL = "first_name"
+
+!SLIDE bullets small
+# Structures de données avec définitions litérales
+
+    @@@ Ruby
+    my_array = [0, 1, 2]
+    my_array[0]
+
+    hash_old_school = {:a_key => 10, :another_key => "another value"}
+    hash_new_school = {a_key: 10, another_key: "another value"}
+    my_hash[:a_key]   
+
 
 
 !SLIDE bullets small
+# Objet
+
+    @@@ Ruby
+    class Person
+      def greet
+        puts "Hello!"
+      end
+    end
+
+    p = Person.new
+    p.greet
+
+!SLIDE bullets small
+.notes TODO: keep ?
+# Encapsulé, pas d'accès direct à l'état interne
+
+    @@@ Ruby
+    class Person
+
+      def name
+        @name
+      end
+
+      def name=(value)
+        @name = value
+      end
+
+    end
+
+    p = Person.new
+    p.name = "pierre"
+    puts p.name
+
+
+!SLIDE bullets small
+.notes TODO: keep ?
 # la même chose 
 
-  @@@ Ruby
-  class Person
-    attr_accessor :name
-  end
+    @@@ Ruby
+    class Person
+      attr_accessor :name
+    end
 
-  p = Person.new
-  p.name = "pierre"
-  puts p.name
+    p = Person.new
+    p.name = "pierre"
+    puts p.name
 
 !SLIDE bullets small
-# single inheritance 
+# Héritage simple
 
-  @@@ Ruby
-  class A
-    def a
+    @@@ Ruby
+    class Person 
+      def greet 
+        puts "Hello!"
+      end
     end
-  end
 
-  class B < A
-    def b
+    class AustralianPerson < Person 
+      def greet 
+        puts "Hello, mate!"
+      end
     end
-  end
 
-  B.new.a
+    Person.new.greet
+    AustralianPerson.new.greet
+
 
 !SLIDE bullets small
-# single inheritance with mixins
-
-  @@@ Ruby
-  module MyModule
-    def my_mixin
-    end
-  end
-  class A
-    include MyModule
-  end
-
-  B.new.my_mixin
-
-!SLIDE bullets small
-# monkey patching
+# Monkey patching
 ![monkey patch](monkey_patch.jpg)
 
-!SLIDE bullets small
-# monkey patching
 
-
-  @@@ Ruby
-  class String
-    def palindrome?
-      self == self.reverse
+    @@@ Ruby
+    class String
+      def palindrome?
+        self == self.reverse
+      end
     end
-  end
 
-  "deified".palindrome?
+    'deified'.palindrome?
 
 
 !SLIDE bullets small incremental
-# ruby flexible et dynamique
+# Ruby : flexible et dynamique
 
-- dsl ready
-- rails un dsl pour le web ?
+- DSL (langage dédié) ready
+- Rails un DSL pour le web ?

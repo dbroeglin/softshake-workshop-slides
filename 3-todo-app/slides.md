@@ -2,24 +2,26 @@
 .notes first slide
 
 # Notre première application Ruby on Rails 
+«Let's build a TODO app!»
 
-Let's build a TODO app.
 
-!SLIDE small 
-# Générons notre première application
+!SLIDE bullets small 
+# Génération de l'application
+
+Ouvrir un nouveau terminal (sous windows ouvrir "command prompt with ruby on rails"):
 
     @@@ sh
-    $ rails new todo
-    $ cd todo
-    $ rails server
+    rails new todo
+    cd todo
+    rails server
 
-- ouvrir nouveau terminal.
-- ouvrir http://localhost:3000 
+Ouvrir [http://localhost:3000](http://localhost:3000)
+
 
 !SLIDE small
-## structure projet rails
+## Structure d'un projet rails
 
-source -> official rails guides
+Source: [guide rails officiel](http://guides.rubyonrails.org/getting_started.html#creating-the-blog-application)
 
 <table>
   <thead><tr>
@@ -90,18 +92,19 @@ source -> official rails guides
 </table>
 
 !SLIDE bullets small
-# abracadabra
+# Les générateurs de code
 
     @@@ sh
-    rails generate scaffold task \
-        title:string completed:boolean
+    rails generate scaffold task title:string completed:boolean
 
 ![scaffold](scaffold.png)
 
+!SLIDE bullets small
 rafraîchir le browser, : (
 
 !SLIDE bullets small
 # l'erreur nous indique la solution 
+
 
     @@@ Ruby
     $ rake db:migrate RAILS_ENV=development 
@@ -118,7 +121,7 @@ rafraîchir le browser, : (
       end
     end
 
-- rafraîchir le browser, localhost:3000/tasks
+- rafraîchir le browser, [localhost:3000/tasks](localhost:3000/tasks)
 
 !SLIDE bullets small
 # comment ça marche (CRUD "restful" resource)

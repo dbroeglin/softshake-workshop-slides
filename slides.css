@@ -26,3 +26,10 @@ table td {
 	border-style: solid;
 	border-color: #a9c6c9;
 }
+h1, h2, h3{
+	text-align: left;
+	margin-left: 40px;
+}
+.content p{
+	text-align: left;
+}

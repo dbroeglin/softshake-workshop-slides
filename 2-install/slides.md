@@ -1,26 +1,23 @@
 !SLIDE subsection
 # Installation de Ruby on Rails
 
-!SLIDE bullets
+!SLIDE bullets small
 # Windows
+- [http://railsinstaller.org/en](http://railsinstaller.org/en)
 
-http://railsinstaller.org/en
-(bleeding edge pour rails 4)
+## "ansicon" (pour obtenir la coloration des messages dans le terminal).
 
-!SLIDE Bullets small
-## ansicon (coloration terminal)
-install http://adoxa.hostmyway.net/ansicon/ for colour codes in cli
-(copy x64 or x86 folder somewhere in path, run "ansicon.exe" from console)
+1. Installer [http://adoxa.hostmyway.net/ansicon/](http://adoxa.hostmyway.net/ansicon/) 
+1. Copier le dossier x64 ou x86 dans le PATH
+1. Dans la console, lancer "ansicon.exe"
 
-!SLIDE bullets
-# Mac OS X
-http://guides.railsgirls.com/install/
-
-!SLIDE bullets
-# Linux
-http://guides.railsgirls.com/install/
+!SLIDE bullets small
+# Mac OS X et Linux
+- [http://guides.railsgirls.com/install/](http://guides.railsgirls.com/install/)
 
 
-!SLIDE bullets
-# mise à jour rails sur la version 4
-gem install rails --version 4.0.0 --no-ri --no-rdoc
+!SLIDE bullets small
+# Mise à jour rails sur la version 4
+
+		@@@ sh
+		gem install rails --version 4.0.0 --no-ri --no-rdoc
