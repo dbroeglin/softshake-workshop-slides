@@ -33,10 +33,10 @@
 !SLIDE bullets small
 # Dynamiquement et fortement typé
 
-![quack](duck_typing.jpg)
-
 Si ça ressemble à un canard, si ça nage comme un canard et si ça 
 cancane comme un canard, c'est qu'il s'agit sans doute d'un canard.
+
+![quack](duck_typing.jpg)
 
 !SLIDE bullets small
 # réflexif
@@ -45,20 +45,20 @@ cancane comme un canard, c'est qu'il s'agit sans doute d'un canard.
      [].respond_to?(:each)
 
 !SLIDE bullets small
-# bloc party
+# Bloc party
 
-  @@@ Ruby
-  10.times { puts "youpi" }
+    @@@ Ruby
+    10.times { puts "youpi" }
 
-  10.times do 
-    puts "youpi"
-  end
+    10.times do 
+      puts "youpi"
+    end
 
-  ["foo", "bar"].each { |s| puts s }
+    ["foo", "bar"].each { |s| puts s }
 
-  # in js speak
-  ["foo", "bar"].forEach(function(s) { 
-    console.log (s); });
+    # in js speak
+    ["foo", "bar"].forEach(function(s) { 
+      console.log (s); });
 
 !SLIDE bullets small
 # parens optionnel
