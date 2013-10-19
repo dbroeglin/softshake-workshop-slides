@@ -31,9 +31,12 @@
     end
 
 !SLIDE bullets small
-# dynamiquement typé
+# Dynamiquement et fortement typé
 
 ![quack](duck_typing.jpg)
+
+Si ça ressemble à un canard, si ça nage comme un canard et si ça 
+cancane comme un canard, c'est qu'il s'agit sans doute d'un canard.
 
 !SLIDE bullets small
 # réflexif
