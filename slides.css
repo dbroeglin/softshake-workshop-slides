@@ -1,35 +1,44 @@
 pre.sh_sourceCode {
 	background-color: rgb(241, 241, 241);
 	font-size: 230%;
+	margin-left: 50px;
 }
-table {
+.content h1, .content h2, .content h3 {
+	text-align: left;
+	margin-left: 40px;
+}
+.content p{
+	text-align: left;
+	margin-left: 50px;
+}
+li pre.sh_sourceCode {
+  font-size: inherit;
+  text-align: left;
+	font-size: 75%;
+}
+table.files {
 	font-family: verdana,arial,sans-serif;
 	font-size:11px;
 	color:#333333;
 	border-width: 1px;
 	border-color: #999999;
 	border-collapse: collapse;
+  margin-left: 40px;
+  margin-right: 40px;
 }
-table th {
+table.files th {
 	background-color:#c3dde0;
 	border-width: 1px;
 	padding: 8px;
 	border-style: solid;
 	border-color: #a9c6c9;
 }
-table tr {
+table.files tr {
 	background-color:#d4e3e5;
 }
-table td {
+table.files td {
 	border-width: 1px;
 	padding: 8px;
 	border-style: solid;
 	border-color: #a9c6c9;
-}
-h1, h2, h3{
-	text-align: left;
-	margin-left: 40px;
-}
-.content p{
-	text-align: left;
 }
