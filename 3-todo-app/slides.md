@@ -8,22 +8,24 @@
 !SLIDE bullets small 
 # Génération de l'application
 
-Ouvrir un nouveau terminal (sous windows ouvrir "command prompt with ruby on rails"):
+- Ouvrir un nouveau terminal (sous windows ouvrir "Command prompt with 
+ruby on rails") et taper :
 
-    @@@ sh
-    rails new todo
-    cd todo
-    rails server
+        @@@ sh
+        rails new todo
+        cd todo
+        rails server
 
-Ouvrir [http://localhost:3000](http://localhost:3000)
+- Ouvrir [http://localhost:3000](http://localhost:3000)
 
 
 !SLIDE small
+.notes TODO: translate 
 ## Structure d'un projet rails
 
 Source: [guide rails officiel](http://guides.rubyonrails.org/getting_started.html#creating-the-blog-application)
 
-<table>
+<table class="files">
   <thead><tr>
     <th>File/Folder</th>
     <th>Purpose</th>
@@ -31,7 +33,10 @@ Source: [guide rails officiel](http://guides.rubyonrails.org/getting_started.htm
   <tbody>
     <tr>
       <td>app/</td>
-      <td>Contains the controllers, models, views, helpers, mailers and assets for your application. You'll focus on this folder for the remainder of this guide.</td>
+      <td>
+      Contains the controllers, models, views, helpers, mailers and
+      assets for your application. You'll focus on this folder for the
+      remainder of this guide.</td>
     </tr>
     <tr>
       <td>bin/</td>
@@ -92,90 +97,119 @@ Source: [guide rails officiel](http://guides.rubyonrails.org/getting_started.htm
 </table>
 
 !SLIDE bullets small
-# Les générateurs de code
+# Génération de code (1/3)
 
     @@@ sh
     rails generate scaffold task title:string completed:boolean
 
 ![scaffold](scaffold.png)
 
-!SLIDE bullets small
-rafraîchir le browser, : (
+!SLIDE bullets
+# Génération de code (2/3)
+Rafraîchir le browser 
+
+Oups... :-(
 
 !SLIDE bullets small
-# l'erreur nous indique la solution 
+# Génération de code (3/3)
 
+- La solution est dans les message d'erreur
 
-    @@@ Ruby
-    $ rake db:migrate RAILS_ENV=development 
+        @@@ Ruby
+        $ rake db:migrate RAILS_ENV=development
 
-    # db/migrate/20131012094430_create_tasks.rb
-    class CreateTasks < ActiveRecord::Migration
-      def change
-        create_table :tasks do |t|
-          t.string :title
-          t.boolean :completed
+- Rafraîchir le browser: [localhost:3000/tasks](localhost:3000/tasks)
+  :-)
 
-          t.timestamps
+        @@@ Ruby
+        # db/migrate/20131012094430_create_tasks.rb
+        class CreateTasks < ActiveRecord::Migration
+          def change
+            create_table :tasks do |t|
+              t.string :title
+              t.boolean :completed
+              t.timestamps
+            end
+          end
         end
-      end
+
+
+!SLIDE bullets small
+# CRUD RESTful ???
+
+Dans le fichier `config/routes.rb` :
+    @@@ ruby
+    # ...
+    resources :tasks
+    # ...
+
+Dans la console exécuter `rake routes` :
+
+    @@@ sh
+          Prefix Verb   URI Pattern               Controller#Action
+        tasks GET    /tasks(.:format)             tasks#index
+              POST   /tasks(.:format)             tasks#create
+     new_task GET    /tasks/new(.:format)         tasks#new
+    edit_task GET    /tasks/:id/edit(.:format)    tasks#edit
+         task GET    /tasks/:id(.:format)         tasks#show
+              PATCH  /tasks/:id(.:format)         tasks#update
+              PUT    /tasks/:id(.:format)         tasks#update
+              DELETE /tasks/:id(.:format)         tasks#destroy
+
+Indice: `tasks#index` → `TaskController.index`
+
+
+!SLIDE bullets small
+# CRUD RESTful ???
+
+Editons `app/controller/tasks_controller.rb` :
+    @@@ Ruby 
+    # GET /tasks
+    # GET /tasks.json
+    def index
+      @tasks = Task.all
     end
 
-- rafraîchir le browser, [localhost:3000/tasks](localhost:3000/tasks)
+Par convention, la vue sera `app/views/tasks/index.html.erb`
+    @@@ html
+    <!-- ... -->
+    <% @tasks.each do |task| %>
+      <tr>
+        <td><%= task.title %></td>
+        <!-- ... -->
+        <td><%= link_to 'Edit', edit_task_path(task) %></td>
+        <!-- ... -->
+    <% end %>
+    <!-- ... -->
 
 !SLIDE bullets small
-# comment ça marche (CRUD "restful" resource)
+# CRUD RESTful ???
 
-    @@@ ruby
-    # config/routes.rb
-    resources :tasks
+## Faisons pointer la racine sur la liste des tâches
 
-!SLIDE bullets small
-# $ rake routes
-
-    @@@ sh
-    
-          Prefix Verb   URI Pattern               Controller#Action
-        tasks GET    /tasks(.:format)          tasks#index
-              POST   /tasks(.:format)          tasks#create
-     new_task GET    /tasks/new(.:format)      tasks#new
-    edit_task GET    /tasks/:id/edit(.:format) tasks#edit
-         task GET    /tasks/:id(.:format)      tasks#show
-              PATCH  /tasks/:id(.:format)      tasks#update
-              PUT    /tasks/:id(.:format)      tasks#update
-              DELETE /tasks/:id(.:format)      tasks#destroy
-
-
-!SLIDE bullets small
-# quel est le chemin d'une nouvelle tâche
-  
-    @@@ sh
-    # app/controller/tasks_controller.rb
-    tasks#new -> voir la vue
-
-    # app/views/tasks/new.html.erb
-
-
-!SLIDE bullets small
-# on aimerait la home sur tasks#index
-
-changer config/routes.rb et rajouter
+Dans `config/routes.rb` ajoutons la ligne suivante entre `do` et
+`end`:
 
     @@@ Ruby
     root "tasks#index"
 
 !SLIDE bullets small
-# mieux comprendre les interactions entre les vues et les controlleur
+# CRUD RESTful ???
 
-debug params
+Pour mieux comprendre les interactions entre les vues et les
+controlleur ajoutons l'affichage des paramètres de la requête 
+dans le fichier `app/views/layout/application.html.erb`:
 
     @@@ html
-    # app/views/layout/application.html.erb
     <body>
       <%= yield %>
       <%= debug(params) if Rails.env.development? %>
     </body>
 
+!SLIDE subsection
+# La tête dans les nuages
+
+## Déploiement sous Heroku
 
 !SLIDE bullets small
 # déployons dans les nuages avec Heroku
