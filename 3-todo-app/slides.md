@@ -513,6 +513,11 @@ générons le test
       end
     end
 
+!SLIDE small
+## Exercices:
+
+- Rajouter le nom du projet dans la liste des tâches (éditer app/views/tasks/index.html.erb)
+- Lister les tâches par projet?
 
 !SLIDE bullets small
 # limite des générateurs.
@@ -570,8 +575,7 @@ enlever
 !SLIDE bullets small
 # Exercises
 
-- rajout validation to Task.title (with tests)
-- changer rediriger new task sucess sur la home
+- rediriger new task sucess sur la home
 
 
 !SLIDE bullets small
