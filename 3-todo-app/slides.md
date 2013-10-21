@@ -678,6 +678,11 @@ $ rake test
 
 $ rake test
 
+!SLIDE small
+# Exercises
+
+- Que se passe-t'il si une tâche est déjà complète (ne pas afficher le boutton dans ce cas par ex.)
+
 !SLIDE subsection
 .notes ouvrir un compte pour les tests
 # Tweet the task
