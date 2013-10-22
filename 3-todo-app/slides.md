@@ -573,7 +573,7 @@ enlever
     </div>
 
 !SLIDE bullets small
-# Exercises
+# Exercices
 
 - rediriger new task sucess sur la home
 
@@ -679,69 +679,74 @@ $ rake test
 $ rake test
 
 !SLIDE small
-# Exercises
+# Exercices
 
 - Que se passe-t'il si une tâche est déjà complète (ne pas afficher le boutton dans ce cas par ex.)
 
 !SLIDE bullets small
-## Egocentric Todo
-on aimerait tweeter chaque tâches accomplies  
-@softshake_ruby
-
-
-!SLIDE bullets small
-## configuration du compte tweeter
-
-[https://dev.twitter.com/apps/new](https://dev.twitter.com/apps/new)
-    
-    @@@ Ruby
-    # config/initializers/twitter_secrets
-    Todo::Application.config.twitter_secrets = {
-      consumer_key:  "WWhRtarQA1kXduLbNILU4w"
-      consumer_secret: "DXT4kTWndpzco3imwYEhDI9YQuo9k9RBLykmRnCM"
-      oauth_token: "1960777086-t8uRh2v8Dpdz4W6DgW2NVeeXF3YbaiTOh0OxqMW"
-      oauth_token_secret: "SMIpGweHdz0Bzlbz7odZKluqEadaTsGnT1qVfZrF86Q"
-    }
+# Egocentric Todo
+- On aimerait tweeter chaque tâche accomplie sur le compte twitter @softshake_ruby
+- [https://twitter.com/softshake_ruby](https://twitter.com/softshake_ruby)
 
 !SLIDE bullets small
-## Gemfile
+# Utilisation de la gem _twitter_
 
-Une gem twitter: [https://github.com/sferik/twitter](https://github.com/sferik/twitter)
-    
-    @@@ Ruby
-    source 'https://rubygems.org'
+- Nous allons utiliser la gen _twitter_ disponible à l'adresse [https://github.com/sferik/twitter](https://github.com/sferik/twitter)
+- Ajouter la ligne suivante dans le fichier _Gemfile_ :
 
-    gem 'twitter'
+        @@@ Ruby
+        gem 'twitter'
 
-bundle install
+- Exécuter :
+
+        @@@ sh
+        bundle install
+
+!SLIDE bullets small
+# Configuration du compte Twitter
+
+Créer le fichier `config/initializers/twitter_tokens.rb` avec le
+contenu suivant :
+
+        @@@ Ruby
+        Todo::Application.config.twitter_secrets = {
+          consumer_key:  "WWhRtarQA1kXduLbNILU4w"
+          consumer_secret:
+            "DXT4kTWndpzco3imwYEhDI9YQuo9k9RBLykmRnCM"
+          oauth_token:
+            "1960777086-t8uRh2v8Dpdz4W6DgW2NVeeXF3YbaiTOh0OxqMW"
+          oauth_token_secret:
+            "SMIpGweHdz0Bzlbz7odZKluqEadaTsGnT1qVfZrF86Q"
+        }
+
+- Les instruction sont disponibles sur le site de Twitter [https://dev.twitter.com/apps/new](https://dev.twitter.com/apps/new)
 
 
 !SLIDE bullets small
 ## Le service twitter
 
-    @@@ Ruby
-    # lib/twitter_service.rb
-    require 'twitter'
+- Créer un fichier `lib/twitter_service.rb` avec le contenu suivant :
 
-    # needed on windows
-    OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
+        @@@ Ruby
+        require 'twitter'
 
-    # one user global config
-    Twitter.configure do |config|
-      secrets = Todo::Application.config.twitter_secrets
-      config.consumer_key = secrets[:consumer_key]
-      config.consumer_secret = secrets[:consumer_secret]
-      config.oauth_token = secrets[:oauth_token]
-      config.oauth_token_secret = secrets[:oauth_token_secret]
-    end
+        # needed on windows
+        OpenSSL::SSL::VERIFY_PEER = OpenSSL::SSL::VERIFY_NONE
 
+        # one user global config
+        Twitter.configure do |config|
+          secrets = Todo::Application.config.twitter_secrets
+          config.consumer_key = secrets[:consumer_key]
+          config.consumer_secret = secrets[:consumer_secret]
+          config.oauth_token = secrets[:oauth_token]
+          config.oauth_token_secret = secrets[:oauth_token_secret]
+        end
 
-    module TwitterService
-      def self.tweet_task(task, client=Twitter)
-        client.update("I did it #{Time.now}: #{task.title}")
-      end
-    end
-
+        module TwitterService
+          def self.tweet_task(task, client=Twitter)
+            client.update("I did it #{Time.now}: #{task.title}")
+          end
+        end
 
 !SLIDE bullets small
 ## Auto chargement du répertoire lib
@@ -797,7 +802,7 @@ bundle install
     @@@ sh
     rake test TEST=test/lib/twitter_service_test.rb
 
-ou 
+ou
 
     @@@ sh
     rake test:all
@@ -819,14 +824,9 @@ ou
     end
 
 !SLIDE small
-## Exercises
+## Exercices
 
-- rajouter un 'flash message' pour indiquer à l'utilisateur que le tweet est parti
-
-!SLIDE subsection
-.notes ouvrir un compte pour les tests
-# Tweet the task
-
+- Ajouter un 'flash message' pour indiquer à l'utilisateur que le tweet est parti
 
 !SLIDE subsection
 .notes vérifier les temps/difficultés de setup
