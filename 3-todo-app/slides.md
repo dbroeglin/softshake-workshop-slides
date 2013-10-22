@@ -516,14 +516,39 @@ On souhaite associer chaque Tâche à un Projet.
 Oups...
 
 !SLIDE bullets small
-## Rajouter une colonne project_id à la table Task
+# Et si on testait?
 
-Créer une nouvelle migration
+
+    @@@ Ruby
+    # test/models/taks_test.rb
+    class TaskTest < ActiveSupport::TestCase
+      test "add project to task" do
+        p = Project.new(title: 'my project')
+        p.save
+        t = Task.new(title: 'do it')
+        t.project = p
+        t.save
+
+        assert Task.find_by_project_id(p.id).project_id == p.id
+      end
+    end
+
+Lançons les tests
+
+    @@@ sh
+    rake test
+
+
+!SLIDE bullets small
+## De rouge à vert
+Rajoutons une colonne project_id à la table Task
+
+Créons une nouvelle migration
 
     @@@ sh
     $ rails g migration add_project_id_to_task project_id:integer  
 
-Editer la migration (db/migration/...)
+Editons la migration (db/migration/...)
 
     @@@ Ruby
     # db/migrations/timestamp_add_project_id_to_task
@@ -533,14 +558,14 @@ Editer la migration (db/migration/...)
       end
     end
 
-Lancer la migration
+Lançons la migration
 
     @@@ sh
     $ rake db:migrate  
 
 
 !SLIDE bullets small
-# Et si on faisait des tests...
+# Test d'intégration
 ## Test d'intégration de la sélection du projet
 
 On utilise https://github.com/jnicklas/capybara  
@@ -574,13 +599,13 @@ Finalement, écrivons un helper pour intégrer capybara.
 !SLIDE bullets small
 ## Le test
 
-Générer le fichier de test...
+Générons le fichier de test...
 
     @@@ sh
     $ rails generate integration_test task_flows
 
 
-... et son édition
+Editons le fichier nouvellement crée.
 
     @@@ Ruby
     class TaskFlowsTest < ActionDispatch::IntegrationTest
@@ -605,12 +630,53 @@ Editons app/views/tasks/_form.html.erb
     @@@ html
     <div class="field">
       <%= f.label :project %><br>
-      <%= f.select :project_id, Project.all.map {|p| [p.title, p.id]} %>
+      <%= f.select :project_id, \
+      Project.all.map {|p| [p.title, p.id]} %>
     </div>
 
 !SLIDE small
-## Exercices:
+## Le test nous permet un refactor
 
+On aimerait limiter les projets aux projets en cours
+    
+Changeons le formulaire,
+
+    @@@ html
+    <div class="field">
+      <%= f.label :project %><br>
+      <%= f.select :project_id, @projects.map {|p| [p.title, p.id]}%>
+    </div>
+
+le controlleur,
+    
+    @@@ Ruby
+    # GET /tasks/new
+    def new
+      @task = Task.new
+      @projects = Project.all
+    end
+
+    # GET /tasks/1/edit
+    def edit
+      @projects = Project.ongoing
+    end
+
+!SLIDE small
+## Le test nous permet un refactor
+
+et finalement le modèle.
+
+    @@@ Ruby
+    class Project < ActiveRecord::Base
+      scope :ongoing, \
+          ->() { where("due_date > ? or due_date is null", Time.now) }
+    end
+
+
+
+!SLIDE small
+## Exercices:
+- Ecrire le test d'intégration pour la Project.ongoing
 - Rajouter le nom du projet dans la liste des tâches (éditer app/views/tasks/index.html.erb)
 - Lister les tâches par projet?
 
