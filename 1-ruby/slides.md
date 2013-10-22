@@ -93,11 +93,10 @@ cancane comme un canard, c'est qu'il s'agit sans doute d'un canard.
 
     ["foo", "bar"].each { |s| puts s }
 
-    # in js speak
-    ["foo", "bar"].forEach(function(s) { 
-      console.log (s); });
+    # en Javascript :
+    ["foo", "bar"].forEach(function(s) { console.log (s); });
 
-    [1, 10, 25].map { |d| "#{d} km"}.join(", ")
+    ['dbroeglin', 'david_hodgetts'].map { |u| "@#{u}"}.join(", ")
 
 !SLIDE bullets small
 # Parenthèses optionnelles
@@ -114,13 +113,13 @@ cancane comme un canard, c'est qu'il s'agit sans doute d'un canard.
     end
 
 !SLIDE bullets small
-# Symboles 
+# Symboles
 
 Sorte de "string" léger et immutable  
 
     @@@ Ruby
     :first_name.class
-    
+
     "first_name".to_sym
     :first_name.to_s
 
@@ -141,7 +140,7 @@ Sorte de "string" léger et immutable
 
     hash_old_school = {:a_key => 10, :another_key => "another value"}
     hash_new_school = {a_key: 10, another_key: "another value"}
-    my_hash[:a_key]   
+    my_hash[:a_key]
 
 
 
