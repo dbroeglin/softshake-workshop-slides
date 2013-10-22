@@ -97,7 +97,7 @@ Source: [guide rails officiel](http://guides.rubyonrails.org/getting_started.htm
 </table>
 
 !SLIDE bullets small
-# Génération de code (1/3)
+## Génération de code (1/3)
 
     @@@ sh
     rails generate scaffold task title:string completed:boolean
@@ -105,13 +105,13 @@ Source: [guide rails officiel](http://guides.rubyonrails.org/getting_started.htm
 ![scaffold](scaffold.png)
 
 !SLIDE bullets
-# Génération de code (2/3)
+## Génération de code (2/3)
 Rafraîchir le browser 
 
 Oups... :-(
 
 !SLIDE bullets small
-# Génération de code (3/3)
+## Génération de code (3/3)
 
 - La solution est dans les message d'erreur
 
@@ -135,7 +135,7 @@ Oups... :-(
 
 
 !SLIDE bullets small
-# CRUD RESTful ???
+## CRUD RESTful
 
 Dans le fichier `config/routes.rb` :
     @@@ ruby
@@ -160,9 +160,10 @@ Indice: `tasks#index` → `TaskController.index`
 
 
 !SLIDE bullets small
-# CRUD RESTful ???
+## CRUD RESTful
 
 Editons `app/controller/tasks_controller.rb` :
+
     @@@ Ruby 
     # GET /tasks
     # GET /tasks.json
@@ -171,6 +172,7 @@ Editons `app/controller/tasks_controller.rb` :
     end
 
 Par convention, la vue sera `app/views/tasks/index.html.erb`
+
     @@@ html
     <!-- ... -->
     <% @tasks.each do |task| %>
@@ -183,7 +185,7 @@ Par convention, la vue sera `app/views/tasks/index.html.erb`
     <!-- ... -->
 
 !SLIDE bullets small
-# CRUD RESTful ???
+## CRUD RESTful
 
 ## Faisons pointer la racine sur la liste des tâches
 
@@ -194,7 +196,7 @@ Dans `config/routes.rb` ajoutons la ligne suivante entre `do` et
     root "tasks#index"
 
 !SLIDE bullets small
-# CRUD RESTful ???
+## CRUD RESTful
 
 Pour mieux comprendre les interactions entre les vues et les
 controlleur ajoutons l'affichage des paramètres de la requête 
@@ -212,16 +214,16 @@ dans le fichier `app/views/layout/application.html.erb`:
 ## Déploiement sous Heroku
 
 !SLIDE bullets small
-# déployons dans les nuages avec Heroku
+## Informations sur le processus
 
-https://devcenter.heroku.com/articles/quickstart
+[https://devcenter.heroku.com/articles/quickstart](https://devcenter.heroku.com/articles/quickstart)
 
-https://devcenter.heroku.com/articles/getting-started-with-rails4
+[https://devcenter.heroku.com/articles/getting-started-with-rails4](https://devcenter.heroku.com/articles/quickstart)
 
 !SLIDE bullets small
-#modifier la gemfile (./gemfile)
+## Modifier la gemfile (./gemfile)
 
-rajouter
+Rajouter...
 
     @@@ Ruby 
     ruby "1.9.3"
@@ -231,9 +233,7 @@ rajouter
         gem 'rails_12factor', '0.0.2'
     end
 
-!SLIDE bullets small
-
-remplacer
+...et remplacer
 
     @@@ Ruby
     gem 'sqlite3'
@@ -246,9 +246,9 @@ remplacer
 
 
 !SLIDE bullets small
-# modifier la config db
+## La config db
 
-modifier config/database.yml
+Modifier config/database.yml
 
     @@@ ruby 
     production:
@@ -267,14 +267,14 @@ modifier config/database.yml
       password:
 
 !SLIDE bullets small
-# installer les dépendances
+## Installer les dépendances
 
     @@@ sh
     $ bundle install
 
 
 !SLIDE bullets small
-# initialiser un repo git
+## Initialiser un repo git
 
     @@@ sh 
     $ git init
@@ -283,36 +283,36 @@ modifier config/database.yml
 
 
 !SLIDE bullets small
-# créer l'app sur heroku
+## Créer l'app sur heroku
     
     @@@ sh 
     $ heroku create
 
-et déploiement
+On déploit
 
     @@@ sh
     $ git push heroku master
     $ heroku run rake db:migrate
     $ heroku open
 
-enjoy
+Enjoy : )
 
 !SLIDE bullets small
-# make it nice (bootstrap)
+# Make it nice (bootstrap)
 
-rajout au gemfile
+Rajout au gemfile
 
     @@@ Ruby
     !SLIDE bullets
     gem 'bootstrap-sass', '2.3.2.0'
 
-installer (restart server après)
+Installer (relancer le serveur après)
     
     @@@ sh
     $ bundle install
 
 !SLIDE bullets small
-configurer l'asset pipeline
+## Configurer l'asset pipeline
 
     @@@ Ruby
     # config/application.rb
@@ -326,11 +326,10 @@ configurer l'asset pipeline
     end
 
 !SLIDE bullets small
-créer un custom css
+## Créer un css sur mesure 
+Créer app/assets/stylesheets/custom.css.scss
 
     @@@ css
-    #app/assets/stylesheets/custom.css.scss
-
     @import "bootstrap";
 
     body {
@@ -338,14 +337,21 @@ créer un custom css
     }
 
 !SLIDE bullets small
+## Container
 
-enveloper le <%= yield %> dans un div avec class="container"  
-app/views/layout/application.html.erb
+Appliquer la classe "container" à notre contenu.  
+Editer app/views/layout/application.html.erb
+
+    @@@ html
+    <div class="container">
+      <%= yield %>
+    </div>
+
 
 !SLIDE bullets small
-## partials (créer un header)
+## Partiels (création d'un 'header')
 
-créer app/views/layouts/_header.html.erb
+Créer le fichier app/views/layouts/_header.html.erb
     
     @@@ html
     <header class="navbar navbar-fixed-top navbar-inverse">
@@ -357,7 +363,9 @@ créer app/views/layouts/_header.html.erb
     </header>
 
 !SLIDE bullets small
-rajouter  <%= render 'layouts/header' %> dans layout
+## Intégrons le partiel dans le layout
+
+Rajouter  <%= render 'layouts/header' %> dans layout
 
     @@@ html
     # app/views/layouts/application.html.erb
@@ -368,12 +376,14 @@ rajouter  <%= render 'layouts/header' %> dans layout
       </div>
     </body>
 
-rafraîchir le browser, 
+Rafraîchir le browser, 
 
 meh...
 
 !SLIDE bullets small
-improve app/assets/stylesheets/custom.css.scss
+## Essayons d'améliorer un peu
+
+Editer app/assets/stylesheets/custom.css.scss
     
     @@@ css
     #logo {
@@ -393,42 +403,89 @@ improve app/assets/stylesheets/custom.css.scss
       text-decoration: none;
     }
 
-!SLIDE bullets small
-et encore...
-
-    @@@ css
     body {
       margin: 20pt;
       padding-top: 30px;
     }
 
 !SLIDE bullets small
-et encore...
+## Et encore...
+Rajouter la classe "table" au tag table dans app/views/tasks/index.html.erb
 
-rajouter la classe "table" au tag table dans app/views/tasks/index.html.erb
 
+
+!SLIDE bullets small
+## Exercices
+
+Rajouter un footer ?
+Styler les <a> en bouttons ?
 
 
 !SLIDE bullets small
-## exercises
+# M dans mvc
 
-- rajouter un footer
-- styler les link en bouttons
-- play with icons ?
+Rajoutons une notion de Projet.  
+
+
+Chaque tâche sera associée à un projet.
+
+
+"Out of the box", Rails utilise le pattern ActiveRecord (Martin Fowler, 'Patterns of Enterprise Application Architecture')
 
 !SLIDE bullets small
-# m dans mvc
+## Créons le modèle "Project".
+
     @@@ sh
     rails generate model project title:string \
     completed:boolean due_date:date
 
-!SLIDE bullets small
-# activerecord
-rake db:migrate
+La classe résultante est minimale. (app/models/task.rb)
 
-ouvrir app/model/project.rb
+
+    @@@ Ruby
+    class Task < ActiveRecord::Base
+    end
+
+Une migration est cependant nécéssaire.
+
+    @@@ sh
+    rake db:migrate
+
+Par convention un objet Project sera lié à une table Projects.  
+La table injecte ses colonnes au modèle.
+
 
 !SLIDE bullets small
+## Associations
+
+    @@@ Ruby
+    belongs_to     
+    has_one    
+    has_many    
+    has_many :through    
+    has_one :through    
+    has_and_belongs_to_many   
+
+[http://guides.rubyonrails.org/association_basics.html](http://guides.rubyonrails.org/association_basics.html)
+
+
+!SLIDE bullets small
+## Associations 
+
+Exemple
+
+    @@@ Ruby
+    class Order < ActiveRecord::Base
+      belongs_to :customer
+    end
+
+![belongs to](belongs_to.png)
+
+
+!SLIDE bullets small
+## Associations
+
+On souhaite associer chaque Tâche à un Projet.
 
     @@@ Ruby
     #app/models/task.rb
@@ -437,23 +494,38 @@ ouvrir app/model/project.rb
     end
 
 
-!SLIDE bullets small
-## rails console
-
-rails console   
-rails console --sandbox (rollback all db changes on exit)
-
-créer et sauver un projet  
-créer et sauver une tache  
-Task.create vs Task.create! (how do you handle validation failure)  
-tenter d'ajouter un projet à une tache et oups  
 
 !SLIDE bullets small
-fix it
+## Rails console (le 'repl' de rails)
+    
+    @@@ sh
+    rails console   
+    rails console --sandbox (rollback des écritures db à la sortie)
+
+
+    p = Project.new
+    p.title = "eat pizza"
+    p = Project.new(title: "eat pizza", due_date: Date.today)
+    p.save
+    t = Task.new
+    t.project
+    t.project = p
+    t.project
+    t.save
+
+Oups...
+
+!SLIDE bullets small
+## Rajouter une colonne project_id à la table Task
+
+Créer une nouvelle migration
 
     @@@ sh
     $ rails g migration add_project_id_to_task project_id:integer  
 
+Editer la migration (db/migration/...)
+
+    @@@ Ruby
     # db/migrations/timestamp_add_project_id_to_task
     class AddProjectIdToTask < ActiveRecord::Migration
       def change
@@ -461,26 +533,34 @@ fix it
       end
     end
 
+Lancer la migration
+
+    @@@ sh
     $ rake db:migrate  
 
 
 !SLIDE bullets small
-## test de la vue (intégration de la sélection du projet)
-on utilise https://github.com/jnicklas/capybara  
+# Et si on faisait des tests...
+## Test d'intégration de la sélection du projet
+
+On utilise https://github.com/jnicklas/capybara  
 
 
 "Capybara helps you test web applications by simulating how a real user would interact with your app. It is agnostic about the driver running your tests and comes with Rack::Test and Selenium support built in."
 
 !SLIDE bullets small
-## capybara setup  
-rajouter au gemfile
+## Setup Capybara  
+Rajouter au gemfile
     
     @@@ Ruby
     gem 'capybara', '2.1.0'
 
-bundle install
+Installation des dépendances
 
-un helper pour intégrer capybara
+    @@@ sh
+    bundle install
+
+Finalement, écrivons un helper pour intégrer capybara.
 
     @@@ Ruby
     # test/test_helper.rb
@@ -489,14 +569,18 @@ un helper pour intégrer capybara
       include Capybara::DSL
     end
 
+
+
 !SLIDE bullets small
-générons le test
+## Le test
+
+Générer le fichier de test...
 
     @@@ sh
     $ rails generate integration_test task_flows
 
-!SLIDE bullets small
-édition du test:
+
+... et son édition
 
     @@@ Ruby
     class TaskFlowsTest < ActionDispatch::IntegrationTest
@@ -512,6 +596,17 @@ générons le test
         end
       end
     end
+
+!SLIDE small
+## Faisons passer le test:
+
+Editons app/views/tasks/_form.html.erb
+
+    @@@ html
+    <div class="field">
+      <%= f.label :project %><br>
+      <%= f.select :project_id, Project.all.map {|p| [p.title, p.id]} %>
+    </div>
 
 !SLIDE small
 ## Exercices:
