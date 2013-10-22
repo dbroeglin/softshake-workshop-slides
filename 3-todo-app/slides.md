@@ -221,9 +221,9 @@ dans le fichier `app/views/layout/application.html.erb`:
 [https://devcenter.heroku.com/articles/getting-started-with-rails4](https://devcenter.heroku.com/articles/quickstart)
 
 !SLIDE bullets small
-## Modifier la gemfile (./gemfile)
+# Utilisation de PostgreSQL en production
 
-Rajouter...
+Ajouter dans le fichier `Gemfile` les lignes suivantes :
 
     @@@ Ruby 
     ruby "1.9.3"
@@ -233,13 +233,14 @@ Rajouter...
         gem 'rails_12factor', '0.0.2'
     end
 
-...et remplacer
+et remplacer la ligne :
 
     @@@ Ruby
     gem 'sqlite3'
 
-    # par
+par :
 
+    @@@ Ruby
     group :development, :test do
         gem 'sqlite3'
     end
@@ -247,6 +248,8 @@ Rajouter...
 
 !SLIDE bullets small
 ## La config db
+.notes TODO: verify it's working
+# modifier la config db
 
 Modifier config/database.yml
 
