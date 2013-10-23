@@ -1,144 +1,142 @@
-!SLIDE bullets small
-# M dans mvc
-
-Rajoutons une notion de Projet.  
-
-
-Chaque tâche sera associée à un projet.
-
-
-"Out of the box", Rails utilise le pattern ActiveRecord (Martin Fowler, 'Patterns of Enterprise Application Architecture')
+!SLIDE subsection
+# 
 
 !SLIDE bullets small
-## Créons le modèle "Project".
+# Le M dans MVC
+
+- Ajoutons une notion de Projet. Chaque tâche sera 
+associée à un projet.
+- ![Task-Project class diagram](class_diagram.png)
+
+
+Rails utilise le patron de conception (_design pattern_)
+  ActiveRecord (cf. _Patterns of Enterprise Application Architecture_
+  par Martin Fowler)
+
+!SLIDE bullets small
+## Ajout d'un modèle _Project_
 
     @@@ sh
     rails generate model project title:string \
-    completed:boolean due_date:date
+      completed:boolean due_date:date
 
-La classe résultante est minimale. (app/models/task.rb)
+- La commande génère le, plutôt minimaliste, fichier
+`app/models/project.rb` :
 
+        @@@ Ruby
+        class Project < ActiveRecord::Base
+        end
 
-    @@@ Ruby
-    class Task < ActiveRecord::Base
-    end
+- Une migration de la base de données est nécéssaire :
 
-Une migration est cependant nécéssaire.
-
-    @@@ sh
-    rake db:migrate
+        @@@ sh
+        rake db:migrate
 
 Par convention un objet Project sera lié à une table Projects.  
 La table injecte ses colonnes au modèle.
 
 
 !SLIDE bullets small
-## Associations
+## Associations (1/2)
 
-    @@@ Ruby
-    belongs_to     
-    has_one    
-    has_many    
-    has_many :through    
-    has_one :through    
-    has_and_belongs_to_many   
+- Rails dispose de différents types d'associations :
 
-[http://guides.rubyonrails.org/association_basics.html](http://guides.rubyonrails.org/association_basics.html)
+          @@@ Ruby
+        class Task < ActiveRecord::Base
+
+          belongs_to :project
+
+          has_one :acceptance
+
+          has_many :time_entry
+
+          has_and_belongs_to_many :tag
+
+        end
+
+Cf. [http://guides.rubyonrails.org/association_basics.html](http://guides.rubyonrails.org/association_basics.html)
+
+!SLIDE bullets small
+## Associations (2/2)
+
+- ![Task-Project class diagram](class_diagram.png)
+-  Pour associer chaque Tâche à un Projet modifier le fichier
+   `app/models/task.rb` :
+
+        @@@ Ruby
+        class Task < ActiveRecord::Base
+          belongs_to :project
+        end
 
 
 !SLIDE bullets small
-## Associations 
+## Rails console (le _REPL_ de Rails)
 
-Exemple
+- Pour lancer la console :
 
-    @@@ Ruby
-    class Order < ActiveRecord::Base
-      belongs_to :customer
-    end
+        @@@ sh
+        rails console
+        rails console --sandbox # rollback à la sortie
 
-![belongs to](belongs_to.png)
+- Tapons:
 
-
-!SLIDE bullets small
-## Associations
-
-On souhaite associer chaque Tâche à un Projet.
-
-    @@@ Ruby
-    #app/models/task.rb
-    class Task < ActiveRecord::Base
-      belongs_to :project
-    end
-
-
-
-!SLIDE bullets small
-## Rails console (le 'repl' de rails)
-    
-    @@@ sh
-    rails console   
-    rails console --sandbox (rollback des écritures db à la sortie)
-
-
-    p = Project.new
-    p.title = "eat pizza"
-    p = Project.new(title: "eat pizza", due_date: Date.today)
-    p.save
-    t = Task.new
-    t.project
-    t.project = p
-    t.project
-    t.save
-
-Oups...
-
-!SLIDE bullets small
-# Et si on testait?
-
-
-    @@@ Ruby
-    # test/models/taks_test.rb
-    class TaskTest < ActiveSupport::TestCase
-      test "add project to task" do
-        p = Project.new(title: 'my project')
+        @@@ Ruby
+        p = Project.new
+        p.title = "eat pizza"
+        p = Project.new(title: "eat pizza", due_date: Date.today)
         p.save
-        t = Task.new(title: 'do it')
+        t = Task.new
+        t.project
         t.project = p
+        t.project
         t.save
 
-        assert Task.find_by_project_id(p.id).project_id == p.id
-      end
-    end
-
-Lançons les tests
-
-    @@@ sh
-    rake test
-
+- Oups...
 
 !SLIDE bullets small
+# Et si on testait ?
+
+- Editer le fichier `test/models/taks_test.rb` :
+
+        @@@ Ruby
+        class TaskTest < ActiveSupport::TestCase
+          test "add project to task" do
+            task = Task.new(title: 'do it')
+            task.project = projects(:one)
+            task.save
+
+            assert Task.find_by_project_id(projects(:one).id) == task
+          end
+        end
+
+- Lancer les tests :
+
+        @@@ sh
+        rake test
+
+!SLIDE bullets smaller
 ## De rouge à vert
-Rajoutons une colonne project_id à la table Task
 
-Créons une nouvelle migration
+- Ajoutons une colonne project_id à la table Task.
 
-    @@@ sh
-    $ rails g migration add_project_id_to_task project_id:integer  
+- Créer une nouvelle migration :
 
-Editons la migration (db/migration/...)
+        @@@ sh
+        rails g migration add_project_id_to_task project_id:integer
 
-    @@@ Ruby
-    # db/migrations/timestamp_add_project_id_to_task
-    class AddProjectIdToTask < ActiveRecord::Migration
-      def change
-        add_column :tasks, :project_id, :integer
-      end
-    end
+- Editer `db/migrate/*_add_project_id_to_task.rb` :
 
-Lançons la migration
+        @@@ Ruby
+        class AddProjectIdToTask < ActiveRecord::Migration
+          def change
+            add_column :tasks, :project_id, :integer
+          end
+        end
 
-    @@@ sh
-    $ rake db:migrate  
+- Lancer la migration :
+
+        @@@ sh
+        rake db:migrate
 
 
 !SLIDE bullets small
