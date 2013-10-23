@@ -221,9 +221,9 @@ L'accés à l'attribut "name" se fait par l'intermédiaire d'une paire de "gette
 
     'deified'.palindrome?
 
-Rails rajoute pas mal de fonctionalité au types standard.  
+Rails rajoute pas mal de fonctionalités aux types standard.
 On pourrait dire que Rails spécialise le langage pour son domaine d'intérêt.
-    
+
     @@@ Ruby
     due_date = Date.today + 1.week
 
