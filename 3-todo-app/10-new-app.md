@@ -116,7 +116,7 @@ Oups... :-(
 !SLIDE bullets small
 ## Génération de code (3/3)
 
-- La solution est dans les message d'erreur
+- La solution est dans les messages d'erreur
 
         @@@ Ruby
         $ rake db:migrate RAILS_ENV=development
@@ -141,6 +141,7 @@ Oups... :-(
 ## CRUD RESTful
 
 Dans le fichier `config/routes.rb` :
+
     @@@ ruby
     # ...
     resources :tasks
@@ -202,7 +203,7 @@ Dans `config/routes.rb` ajoutons la ligne suivante entre `do` et
 ## CRUD RESTful
 
 Pour mieux comprendre les interactions entre les vues et les
-controlleur ajoutons l'affichage des paramètres de la requête 
+controlleurs, ajoutons l'affichage des paramètres de la requête 
 dans le fichier `app/views/layout/application.html.erb`:
 
     @@@ html
