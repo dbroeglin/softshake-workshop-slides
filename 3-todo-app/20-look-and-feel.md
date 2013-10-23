@@ -1,123 +1,88 @@
+!SLIDE subsection
+# Esthétique
+
+## Twitter Bootstrap
+
+[http://getbootstrap.com/](http://getbootstrap.com/)
+
+!SLIDE bullets
+## Ajouter _bootstrap_
+- Ajouter dans le fichier `Gemfile` :
+
+        @@@ Ruby
+        gem 'bootstrap-sass', '2.3.2.0'
+
+- Installer la gem :
+
+        @@@ sh
+        bundle install
+
+- Relancer le serveur.
+
 !SLIDE bullets small
-# Esthétique (bootstrap)
-
-Rajout au gemfile
-
-    @@@ Ruby
-    !SLIDE bullets
-    gem 'bootstrap-sass', '2.3.2.0'
-
-Installer (relancer le serveur après)
-    
-    @@@ sh
-    $ bundle install
-
-!SLIDE bullets small
+.notes TODO: is this one necessary ?
 ## Configurer l'asset pipeline
 
-    @@@ Ruby
-    # config/application.rb
-    module Todo
-      class Application < Rails::Application
-        .
-        .
-        .
-        config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
-      end
-    end
+- Dans le fichier `config/application.rb` ajouter la ligne 
+contenant `config.assets.precompile`
 
-!SLIDE bullets small
-## Créer un css sur mesure 
-Créer app/assets/stylesheets/custom.css.scss
+        @@@ Ruby
+        # config/application.rb
+        module Todo
+          class Application < Rails::Application
+            # ...
+            config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
+            # ...
+          end
+        end
 
-    @@@ css
-    @import "bootstrap";
+!SLIDE bullets smaller
+## Un CSS sur mesure
 
-    body {
-      margin: 20pt;
-    }
+- Effacer `app/assets/stylesheets/scaffolds.css.scss`
+- Ajouter dans `app/assets/stylesheets/tasks.css.scss` :
 
-!SLIDE bullets small
-## Container
+        @@@ css
+        @import "bootstrap";
 
-Appliquer la classe "container" à notre contenu.  
-Editer app/views/layout/application.html.erb
+        form {
+          @extend .form-inline;
+        }
 
-    @@@ html
-    <div class="container">
-      <%= yield %>
-    </div>
+        label {
+          @extend .input-small;
+          font-weight: bold;
+        }
+
+        .field {
+          margin: 10pt;
+        }
+
+        table {
+          @extend .table;
+        }
 
 
-!SLIDE bullets small
-## Partiels (création d'un 'header')
+!SLIDE bullets smaller
+## Conteneur et sauts de ligne
 
-Créer le fichier app/views/layouts/_header.html.erb
-    
-    @@@ html
-    <header class="navbar navbar-fixed-top navbar-inverse">
-      <div class="navbar-inner">
-        <div class="container">
-          <%= link_to "JustDidIt", root_path, id: "logo" %>
-        </div>
-      </div>
-    </header>
+- Dans le fichier `app/views/layout/application.html.erb` remplacer :
 
-!SLIDE bullets small
-## Intégrons le partiel dans le layout
-
-Rajouter  <%= render 'layouts/header' %> dans layout
-
-    @@@ html
-    # app/views/layouts/application.html.erb
-    <body>
-      <%= render 'layouts/header' %>
-      <div class="container">
+        @@@ html
         <%= yield %>
-      </div>
-    </body>
 
-Rafraîchir le browser, 
+  par :
 
-meh...
+        @@@ html
+        <div class="container">
+          <%= yield %>
+        </div>
 
-!SLIDE bullets small
-## Essayons d'améliorer un peu
-
-Editer app/assets/stylesheets/custom.css.scss
-    
-    @@@ css
-    #logo {
-      float: left;
-      margin-right: 10px;
-      font-size: 1.7em;
-      color: #fff;
-      text-transform: uppercase;
-      letter-spacing: -1px;
-      padding-top: 9px;
-      font-weight: bold;
-      line-height: 1;
-    }
-
-    #logo:hover {
-      color: #fff;
-      text-decoration: none;
-    }
-
-    body {
-      margin: 20pt;
-      padding-top: 30px;
-    }
-
-!SLIDE bullets small
-## Et encore...
-Rajouter la classe "table" au tag table dans app/views/tasks/index.html.erb
-
-
+- Dans le fichier `app/views/tasks/_form.html.erb` supprimer tous les tags
+`<br>`.
 
 !SLIDE bullets small
 ## Exercices
 
-Rajouter un footer ?
-Styler les <a> en bouttons ?
-
+- Ajouter une barre de navigation bootstrap.
+- Modifier le style des liens pour leur donner l'aspect d'un bouton.

@@ -5,7 +5,7 @@
 «Let's build a TODO app!»
 
 
-!SLIDE bullets small 
+!SLIDE bullets small
 # Génération de l'application
 
 - Ouvrir un nouveau terminal (sous windows ouvrir "Command prompt with 
@@ -17,7 +17,10 @@ ruby on rails") et taper :
         rails server
 
 - Ouvrir [http://localhost:3000](http://localhost:3000)
+- Pour relancer le serveur taper `CTRL + C` (`CMD + C` sous MacOSX) puis:
 
+        @@@ sh
+        rails server
 
 !SLIDE small
 .notes TODO: translate 

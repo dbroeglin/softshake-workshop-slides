@@ -7,10 +7,14 @@ pre.sh_sourceCode {
 	text-align: left;
 	margin-left: 40px;
 }
-.content p{
+.content > p {
 	text-align: left;
 	margin-left: 50px;
 }
+.bullets ul li {
+  text-align: left;
+}
+
 li pre.sh_sourceCode {
   font-size: inherit;
   text-align: left;
