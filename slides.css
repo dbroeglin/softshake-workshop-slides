@@ -11,7 +11,7 @@ pre.sh_sourceCode {
 	text-align: left;
 	margin-left: 50px;
 }
-.bullets ul li {
+.bullets ul li, .bullets ol li {
   text-align: left;
 }
 

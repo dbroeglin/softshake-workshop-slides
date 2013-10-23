@@ -118,7 +118,6 @@ Cf. [http://guides.rubyonrails.org/association_basics.html](http://guides.rubyon
 ## De rouge à vert
 
 - Ajoutons une colonne project_id à la table Task.
-
 - Créer une nouvelle migration :
 
         @@@ sh
@@ -139,199 +138,198 @@ Cf. [http://guides.rubyonrails.org/association_basics.html](http://guides.rubyon
         rake db:migrate
 
 
-!SLIDE bullets small
-# Test d'intégration
-## Test d'intégration de la sélection du projet
+!SLIDE bullets
+## Test d'intégration
 
-On utilise https://github.com/jnicklas/capybara  
+- Nous allons utiliser Capybara.
+  - Utilise Selenium
+  - Simule les interactions d'un utilisateur réèl
+  - Fournit un DSL simplifié
 
-
-"Capybara helps you test web applications by simulating how a real user would interact with your app. It is agnostic about the driver running your tests and comes with Rack::Test and Selenium support built in."
-
-!SLIDE bullets small
-## Setup Capybara  
-Rajouter au gemfile
-    
-    @@@ Ruby
-    gem 'capybara', '2.1.0'
-
-Installation des dépendances
-
-    @@@ sh
-    bundle install
-
-Finalement, écrivons un helper pour intégrer capybara.
-
-    @@@ Ruby
-    # test/test_helper.rb
-    class ActionDispatch::IntegrationTest
-      # Make the Capybara DSL available in all integration tests
-      include Capybara::DSL
-    end
-
-
+Cf. https://github.com/jnicklas/capybara  
 
 !SLIDE bullets small
-## Le test
+## Installation de Capybara
 
-Générons le fichier de test...
+- Ajouter au fichier `Gemfile` :
 
-    @@@ sh
-    $ rails generate integration_test task_flows
+        @@@ Ruby
+        gem 'capybara', '2.1.0'
 
+- Installer la gem :
 
-Editons le fichier nouvellement crée.
+        @@@ sh
+        bundle install
 
-    @@@ Ruby
-    class TaskFlowsTest < ActionDispatch::IntegrationTest
-      test "create new task" do
-        project = Project.create(title: 'Test project')
+- Ajouter à la fin du fichier `test/test_helper.rb` :
 
-        visit(new_task_path())
-        assert page.has_content?('New task')
-        within("select[name='task[project_id]']") do
-            option = find("option[value='#{project.id}']")
-            assert_not option.nil?
-            assert_equal project.title, option.text
+        @@@ Ruby
+        require 'capybara/rails'
+        class ActionDispatch::IntegrationTest
+          include Capybara::DSL
         end
-      end
-    end
 
-!SLIDE small
-## Faisons passer le test:
+!SLIDE bullets small
+.notes Expliquer le test d'intégration. Expliquer Selenium si nécéssaire
+## Un test d'intégration
+
+- Générer le fichier de test :
+
+        @@@ sh
+        rails generate integration_test task_flows
+
+
+- Editer le fichier `test/integration/task_flows_test.rb` :
+
+        @@@ Ruby
+        class TaskFlowsTest < ActionDispatch::IntegrationTest
+          test "new task creation has project selection" do
+            p = projects(:one)
+
+            visit(new_task_path())
+            assert page.has_content?('New task')
+            within("select[name='task[project_id]']") do
+                option = find("option[value='#{p.id}']")
+                assert_not option.nil?
+                assert_equal p.title, option.text
+            end
+          end
+        end
+
+!SLIDE bullets small
+## Faisons passer le test
 
 Editons app/views/tasks/_form.html.erb
 
     @@@ html
     <div class="field">
-      <%= f.label :project %><br>
-      <%= f.select :project_id, \
-      Project.all.map {|p| [p.title, p.id]} %>
+      <%= f.label :project %>
+      <%= f.select :project_id,
+            Project.all.map {|p| [p.title, p.id]} %>
     </div>
 
-!SLIDE small
-## Le test nous permet un refactor
+!SLIDE bullets small
+## Le test nous permet un _refactoring_ (1/2)
 
-On aimerait limiter les projets aux projets en cours
-    
-Changeons le formulaire,
+On aimerait limiter les projets aux projets en cours.
 
-    @@@ html
-    <div class="field">
-      <%= f.label :project %><br>
-      <%= f.select :project_id, @projects.map {|p| [p.title, p.id]}%>
-    </div>
+- Modifier le formulaire :
 
-le controlleur,
-    
-    @@@ Ruby
-    # GET /tasks/new
-    def new
-      @task = Task.new
-      @projects = Project.all
-    end
+        @@@ html
+        <div class="field">
+          <%= f.label :project %><br>
+          <%= f.select :project_id, 
+                @projects.map {|p| [p.title, p.id]} %>
+        </div>
 
-    # GET /tasks/1/edit
-    def edit
-      @projects = Project.ongoing
-    end
+- et le contrôleur :
 
-!SLIDE small
-## Le test nous permet un refactor
+        @@@ Ruby
+        # GET /tasks/new
+        def new
+          @task = Task.new
+          @projects = Project.ongoing # ajouter
+        end
 
-et finalement le modèle.
-
-    @@@ Ruby
-    class Project < ActiveRecord::Base
-      scope :ongoing, \
-          ->() { where("due_date > ? or due_date is null", Time.now) }
-    end
-
-
-
-!SLIDE small
-## Exercices:
-- Ecrire le test d'intégration pour la Project.ongoing
-- Rajouter le nom du projet dans la liste des tâches (éditer app/views/tasks/index.html.erb)
-- Lister les tâches par projet?
+        # GET /tasks/1/edit
+        def edit
+          @projects = Project.ongoing # ajouter
+        end
 
 !SLIDE bullets small
-# limite des générateurs.
+## Le test nous permet un _refactoring_ (2/2)
 
-on aimerait que les nouvelles tâches soit incomplète par défaut
-faisons que Task.new.completed == false (valeur par défaut)
+- et finalement le modèle.
 
-!SLIDE bullets small
+        @@@ Ruby
+        class Project < ActiveRecord::Base
+          scope :ongoing, ->() do
+            where("due_date > ? or due_date is null", Time.now) 
+          end
+        end
 
-    @@@ Ruby
-    # test/models/task_test.rb
-    test "a new task should not be completed" do
-      t = Task.new
-      assert t.completed == false
-    end
+
 
 !SLIDE bullet small
-# une migration
+## Exercices:
+- Ecrire le test d'intégration pour la méthode `Project.ongoing`.
+- Ajouter le nom du projet dans la liste des tâches (éditer
+`app/views/tasks/index.html.erb`).
+- Lister les tâches par projet.
+
+!SLIDE bullets small
+# Evolution du modèle (1/2)
+
+On aimerait que les nouvelles tâches soit incomplète par défaut,
+i.e. que Task.new.completed value false au lieu de NULL.
+
+- Ajouter un test dans `test/models/task_test.rb` :
+
+        @@@ Ruby
+        test "a new task should not be completed" do
+          t = Task.new
+          assert t.completed == false
+        end
+
+- Lancer les tests :
+
+        @@@ sh
+        rake test
+
+
+!SLIDE bullets smaller
+# Evolution du modèle (2/2)
+
+- Générer une nouvelle migration :
 
       @@@ sh
-      rails g migration add_default_value_to_completed_attribute
+      rails g migration add_default_value_to_completed
 
-!SLIDE bullet small
-# suite
+- Editer `db/migrate/*_add_default_value_to_completed.rb` :
 
-    @@@ Ruby
-    #db/migrate/timestamp_add_default_value_to_completed_attribute
+        @@@ Ruby
+        class AddDefaultValueToCompleted < ActiveRecord::Migration
+          def up
+              change_column :tasks, :completed, :boolean, :default => false
+          end
 
-    class AddDefaultValueToCompletedAttribute < ActiveRecord::Migration
-      def up
-          change_column :tasks, :completed, :boolean, :default => false
-      end
+          def down
+              change_column :tasks, :completed, :boolean, :default => nil
+          end
+        end
 
-      def down
-          change_column :tasks, :completed, :boolean, :default => nil
-      end
-    end
+- Lancer la migration :
 
-!SLIDE bullet small
-# rake test -> green
+        @@@ sh
+        rake db:migrate
 
-!SLIDE bullet small
-# cleanup de la vue
-
-enlever
-
-    @@@ html
-    # app/views/tasks/_form.html.erb
-
-    <div class="field">
-      <%= f.label :completed %><br>
-      <%= f.check_box :completed %>
-    </div>
-
-!SLIDE bullets small
+!SLIDE bullets
 # Exercices
 
-- rediriger new task sucess sur la home
+1. Rediriger l'utilisateur sur la page de garde en cas de succès.
+2. Supprimer l'édition de la complétion de la vue d'édition.
 
 
 !SLIDE bullets small
-## mark as completed
-permettre à l'utilisateur de marquer une tâche comme complète depuis la vue index
-(éviter le passage par la vue edit).  
+## «Faciliter la tâche»
 
-Au passage enlever le boutton "show" qui n'a pas beaucoup de sens.
+Permettre à l'utilisateur de marquer une tâche comme complète depuis 
+la liste des tâches.
 
-!SLIDE bullets small
-## le test
+Au passage, enlever le boutton "show" qui n'a pas beaucoup de sens.
 
-    @@@ Ruby
-    # test/integration/task_flows_test.rb
-    test "task index should allow user to mark task as done" do
-      visit(tasks_path)
-      assert page.has_link?('I did it')
-    end
+- Ajouter un test dans `test/integration/task_flows_test.rb`
 
-$ rake test
+        @@@ Ruby
+        test "task index should allow user to mark task as done" do
+          visit(tasks_path)
+          assert page.has_link?('I did it')
+        end
+
+- Lancer les tests :
+
+        @@@ sh
+        rake test
 
 !SLIDE bullets small
 ## la route
