@@ -4,7 +4,7 @@
 «Ruby is designed to make programmers happy» Yukihiro Matsumoto
 
 !SLIDE bullets incremental small
-# Particularités du langage
+## Particularités du langage
 
 - Perl + Lisp + SmallTalk
 - Tout est objet
@@ -15,7 +15,7 @@
 
 
 !SLIDE bullets small
-# Interpréteur de commandes (REPL)
+## Interpréteur de commandes (Read Eval Print Loop)
 
     @@@ sh
     irb
@@ -23,7 +23,7 @@
     => 3
 
 !SLIDE bullets small
-# Tout est ...
+## Tout est ...
 
 ## ... objet
 
@@ -42,7 +42,7 @@
 
 
 !SLIDE bullets small
-# Dynamiquement et fortement typé
+## Dynamiquement et fortement typé
 
     @@@ Ruby
     a = "potatoes"
@@ -56,7 +56,7 @@
     String.class
 
 !SLIDE bullets small
-# "Duck typing" (1/2)
+## "Duck typing" (1/2)
 
 Si ça ressemble à un canard, si ça nage comme un canard et si ça 
 cancane comme un canard, c'est qu'il s'agit sans doute d'un canard.
@@ -64,7 +64,7 @@ cancane comme un canard, c'est qu'il s'agit sans doute d'un canard.
 ![quack](duck_typing.jpg)
 
 !SLIDE bullets small
-# "Duck typing" (2/2)
+## "Duck typing" (2/2)
 
     @@@Ruby
     def compute(a, b, c)
@@ -76,13 +76,16 @@ cancane comme un canard, c'est qu'il s'agit sans doute d'un canard.
 
 !SLIDE bullets small
 .notes todo: keep? 
-# Réflexif
+## Réflexif
 
     @@@ Ruby
     [].respond_to?(:each)
 
 !SLIDE bullets small
-# Bloc party
+## Les Blocs
+
+Sorte de fonction anonyme.
+Deux formes syntaxiques: 
 
     @@@ Ruby
     10.times { puts "youpi" }
@@ -91,29 +94,38 @@ cancane comme un canard, c'est qu'il s'agit sans doute d'un canard.
       puts "youpi"
     end
 
+Un exemple pour les amateurs de Javascript:
+
+    @@@ Ruby
     ["foo", "bar"].each { |s| puts s }
 
-    # en Javascript :
+    # version javascript:
     ["foo", "bar"].forEach(function(s) { console.log (s); });
 
+Une utilisation idiomatique:
+
+    @@@ Ruby
     ['dbroeglin', 'david_hodgetts'].map { |u| "@#{u}"}.join(", ")
 
 !SLIDE bullets small
-# Parenthèses optionnelles
+## Parenthèses optionnelles
+
+Exemple tiré de rspec (framework de test)
 
     @@@ Ruby
-    # exemple rspec (framework de test)
     it "should work" do
       my_obj.my_method.should be_valid
     end
 
-    # au lieu de :
+Avec les parenthèses:
+
+    @@@ Ruby
     it("should work") do
       my_obj.my_method().should(be_valid())
     end
 
 !SLIDE bullets small
-# Symboles
+## Symboles
 
 Sorte de "string" léger et immutable  
 
@@ -125,14 +137,17 @@ Sorte de "string" léger et immutable
 
     User.find_by(:first_name => "Dan")
 
-    # en C#:
+Pour les pratiquants c# et Java:
+
+    @@@ Java
+    // c#
     public const string FIRST_NAME_COL = "first_name";
 
-    # en Java:
+    // Java
     public static final String FIRST_NAME_COL = "first_name"
 
 !SLIDE bullets small
-# Structures de données avec définitions litérales
+## Définitions litérales pour les tableaux et les tableaux associatifs
 
     @@@ Ruby
     my_array = [0, 1, 2]
@@ -145,7 +160,7 @@ Sorte de "string" léger et immutable
 
 
 !SLIDE bullets small
-# Objet
+## Objet
 
     @@@ Ruby
     class Person
@@ -157,31 +172,11 @@ Sorte de "string" léger et immutable
     p = Person.new
     p.greet
 
-!SLIDE bullets small
-.notes TODO: keep ?
-# Encapsulé, pas d'accès direct à l'état interne
-
-    @@@ Ruby
-    class Person
-
-      def name
-        @name
-      end
-
-      def name=(value)
-        @name = value
-      end
-
-    end
-
-    p = Person.new
-    p.name = "pierre"
-    puts p.name
 
 
 !SLIDE bullets small
-.notes TODO: keep ?
-# la même chose 
+## Encapsulé, pas d'accès direct à l'état interne
+L'esprit 'smalltalk'. On envoit un message à un objet.
 
     @@@ Ruby
     class Person
@@ -192,8 +187,10 @@ Sorte de "string" léger et immutable
     p.name = "pierre"
     puts p.name
 
+L'accés à l'attribut "name" se fait par l'intermédiaire d'une paire de "getter/setter"
+
 !SLIDE bullets small
-# Héritage simple
+## Héritage simple
 
     @@@ Ruby
     class Person 
@@ -213,9 +210,7 @@ Sorte de "string" léger et immutable
 
 
 !SLIDE bullets small
-# Monkey patching
-![monkey patch](monkey_patch.jpg)
-
+## Monkey patching
 
     @@@ Ruby
     class String
@@ -226,9 +221,16 @@ Sorte de "string" léger et immutable
 
     'deified'.palindrome?
 
+Rails rajoute pas mal de fonctionalité au types standard.  
+On pourrait dire que Rails spécialise le langage pour son domaine d'intérêt.
+    
+    @@@ Ruby
+    due_date = Date.today + 1.week
 
-!SLIDE bullets small incremental
-# Ruby : flexible et dynamique
 
-- DSL (langage dédié) ready
-- Rails un DSL pour le web ?
+!SLIDE bullets small 
+## En conclusion:
+
+- Ruby est flexible et dynamique.
+- Il se prête à l'écriture de DSL (langage dédié).
+- Peut-on dire alors que Rails est un DSL pour le web?
