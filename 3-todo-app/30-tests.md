@@ -236,7 +236,7 @@ On aimerait limiter les projets aux projets en cours.
           @projects = Project.ongoing # ajouter
         end
 
-!SLIDE bullets small
+!SLIDE bullets smaller
 ## Le test nous permet un _refactoring_ (2/2)
 
 - et finalement le modèle.
@@ -248,14 +248,26 @@ On aimerait limiter les projets aux projets en cours.
           end
         end
 
+- Lancer les tests :
+
+        @@@ sh
+        rake test
+
+- Editer `test/fixtures/projetcs.yml` et supprimer `due_date` 
+pour `one` :
+
+        @@@ yaml
+        one:
+          title: MyString
+          completed: false
 
 
 !SLIDE bullet small
 ## Exercices:
-- Ecrire le test d'intégration pour la méthode `Project.ongoing`.
-- Ajouter le nom du projet dans la liste des tâches (éditer
-`app/views/tasks/index.html.erb`).
-- Lister les tâches par projet.
+1. Ecrire le test d'intégration pour la méthode `Project.ongoing`.
+2. Ajouter le nom du projet dans la liste des tâches (éditer
+  `app/views/tasks/index.html.erb`).
+3. Lister les tâches par projet.
 
 !SLIDE bullets small
 # Evolution du modèle (1/2)
@@ -321,9 +333,12 @@ Au passage, enlever le boutton "show" qui n'a pas beaucoup de sens.
 - Ajouter un test dans `test/integration/task_flows_test.rb`
 
         @@@ Ruby
-        test "task index should allow user to mark task as done" do
+        test "user can mark a task as done from the task list" do
           visit(tasks_path)
-          assert page.has_link?('I did it')
+          within(first(:css, 'tbody tr')) do
+            assert has_content? 'false'
+            has_link? 'I did it'
+          end
         end
 
 - Lancer les tests :
@@ -332,87 +347,116 @@ Au passage, enlever le boutton "show" qui n'a pas beaucoup de sens.
         rake test
 
 !SLIDE bullets small
-## la route
+## «Faciliter la tâche»
 
-    @@@ ruby
-    # routes.rb
-    patch 'tasks/mark_completed/:id' => "tasks#mark_completed", \
-                                  as: :mark_task_completed 
+- Modifier la vue `app/views/tasks/index.html.erb` en ajoutant :
 
-$ rake test
+        @@@ ruby
+        <td>
+          <%= link_to 'I did it', complete_task_path(task),
+                method: :patch %>
+        </td>
 
-!SLIDE bullets small
-## la vue
+- et en supprimant :
 
-    @@@ ruby
-    # app/views/tasks/index.html.erb
-    <td><%= link_to 'I did it', mark_task_completed_path(task), \
-    method: :patch %></td>
+        @@@ ruby
+        <td><%= link_to 'Show', task %></td>
 
-    <td><%= link_to 'Edit', edit_task_path(task) %></td>
+- Lancer les tests :
 
-    <td><%= link_to 'Destroy', task, method: :delete, \
-     data: { confirm: 'Are you sure?' } %></td>
-
-$ rake test
+        @@@ sh
+        rake test
 
 !SLIDE bullets small
-## le test
+## «Faciliter la tâche»
 
-    @@@ ruby
-    test "task index should allow user to mark task as done" do
-      task_title = "test completion"
-      t = Task.create(title: task_title)
-      visit(tasks_path)
-      assert page.has_link?('I did it') 
-      dom_element = all(:css, 'tr').last
-      within(dom_element) do
-          click_on('I did it')
-      end
-      updated_dom_element = all(:css, 'tr').last
-      assert updated_dom_element.has_content?("true")
-    end
+- Editer `config/routes.rb` :
 
+        @@@ ruby
+        patch 'tasks/complete/:id' => "tasks#complete", \
+          as: :complete_task
 
-$ rake test
+- Lancer les tests :
+
+        @@@ sh
+        rake test
+
 
 !SLIDE bullets small
-## le controlleur
+## «Faciliter la tâche»
 
-    @@@ ruby
-    before_action :set_task, only: [:show, :edit, :update,\
-                                   :destroy, :mark_completed]
-    
-     ...
+- Ajouter un test dans `test/integration/task_flows_test.rb`
 
-    def mark_completed
-      respond_to do |format|
-        if @task.mark_as_completed
-          format.html { redirect_to tasks_path, notice: 'Task was successfully updated.' }
-          format.json { head :no_content }
-        else
-          format.html { redirect_to tasks_path, notice: 'the task has not been marked complete' }
-          format.json { render json: @task.errors, status: :unprocessable_entity }
+        @@@ Ruby
+        test "user can mark a task as done from the task list" do
+          visit(tasks_path)
+          within(first(:css, 'tbody tr')) do
+            assert has_content? 'false'
+            click_on 'I did it'
+          end
+          within(first(:css, 'tbody tr')) do
+            assert has_content? 'true'
+          end
         end
-      end
-    end
 
-$ rake test
+- Lancer les tests :
+
+        @@@ sh
+        rake test
+
+!SLIDE bullets smaller
+## «Faciliter la tâche»
+
+- Editer le fichier `app/controllers/tasks_controller.rb` :
+
+        @@@ ruby
+        before_action :set_task, only: [:show, :edit, :update,
+                                       :destroy, :complete]
+        # ...
+        def complete
+          respond_to do |format|
+            if @task.complete
+              format.html { 
+                redirect_to tasks_path, 
+                  notice: 'Task was successfully updated.' }
+              format.json { head :no_content }
+            else
+              format.html { 
+                redirect_to tasks_path, 
+                  notice: 'the task has not been marked complete' }
+              format.json { render json: @task.errors, 
+                              status: :unprocessable_entity }
+            end
+          end
+        end
+
+- Lancer les tests :
+
+        @@@ sh
+        rake test
 
 !SLIDE bullets small
-## le modèle
+## «Faciliter la tâche»
 
-    @@@ ruby
-    class Task < ActiveRecord::Base
-    belongs_to :project
-      def mark_as_completed
-        update(completed: true)
-      end
-    end
+- Editer le modèle `app/models/task.rb` et ajouter la méthode :
 
-$ rake test
+        @@@ ruby
+        class Task < ActiveRecord::Base
+          belongs_to :project
 
-!SLIDE small
+          def complete
+            update(completed: true)
+          end
+        end
+
+- Lancer les tests :
+
+        @@@ sh
+        rake test
+
+
+!SLIDE bullets small
 # Exercices
 
-- Que se passe-t'il si une tâche est déjà complète (ne pas afficher le boutton dans ce cas par ex.)
+1. Que se passe-t'il si une tâche est déjà complète 
+(ne pas afficher le lien dans ce cas par exemple)
