@@ -40,7 +40,7 @@ contenu suivant :
 !SLIDE bullets small
 ## Le service twitter
 
-- Créer un fichier `lib/twitter_service.rb` avec le contenu suivant :
+- Créer un fichier `app/models/twitter_service.rb` avec le contenu suivant :
 
         @@@ Ruby
         require 'twitter'
@@ -62,19 +62,6 @@ contenu suivant :
             client.update("I did '#{task.title}' at #{Time.now.to_s(:short)}")
           end
         end
-
-!SLIDE bullets small
-## Auto chargement du répertoire lib
-
-    @@@ Ruby
-    # config/application.rb
-    class Application < Rails::Application
-      ...
-
-      config.autoload_paths += Dir["#{config.root}/lib/**/"]
-
-      ...
-    end
 
 !SLIDE bullets small
 ## Un test
@@ -112,35 +99,17 @@ contenu suivant :
     end
 
 !SLIDE bullets small
-## Pour exécuter le test
+## Tweet à la sauvegarde
 
-    @@@ sh
-    rake test TEST=test/lib/twitter_service_test.rb
+- Dans le modèle `app/models/tasks.rb` ajouter les lignes 
+suivantes :
 
-ou
-
-    @@@ sh
-    rake test:all
-
-!SLIDE bullets small
-## Finalement, on utilise le service dans le controlleur
-
-    @@@ Ruby
-    def mark_completed
-      respond_to do |format|
-        if @task.mark_as_completed
-          TwitterService.tweet_task @task
-          format.html { redirect_to tasks_path, notice: 'Task was successfully updated.' }
-          format.json { head :no_content }
-        else
-          ...
+        @@@ Ruby
+        after_save do
+          if Rails.env.production?
+            if completed
+              TwitterService.tweet_task self
+            end
+          end
         end
-      end
-    end
-
-!SLIDE small
-## Exercices
-- Ajouter un 'flash message' pour indiquer à l'utilisateur que le tweet est parti
-
-
 
