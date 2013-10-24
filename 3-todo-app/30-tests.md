@@ -243,7 +243,7 @@ On aimerait limiter les projets aux projets en cours.
 - Editer `test/fixtures/projetcs.yml` et supprimer `due_date` 
 pour `one` :
 
-        @@@ yaml
+        @@@ Ruby
         one:
           title: MyString
           completed: false
