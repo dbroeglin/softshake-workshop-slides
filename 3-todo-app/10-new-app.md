@@ -22,82 +22,25 @@ ruby on rails") et taper :
         @@@ sh
         rails server
 
-!SLIDE small
+!SLIDE bullets small
 .notes TODO: translate 
 ## Structure d'un projet rails
 
-Source: [guide rails officiel](http://guides.rubyonrails.org/getting_started.html#creating-the-blog-application)
+`app/` : contient le code de l'application : vues, modèles, contrôlleurs, etc.
 
-<table class="files">
-  <thead><tr>
-    <th>File/Folder</th>
-    <th>Purpose</th>
-  </tr></thead>
-  <tbody>
-    <tr>
-      <td>app/</td>
-      <td>
-      Contains the controllers, models, views, helpers, mailers and
-      assets for your application. You'll focus on this folder for the
-      remainder of this guide.</td>
-    </tr>
-    <tr>
-      <td>bin/</td>
-      <td>Contains the rails script that starts your app and can contain other scripts you use to deploy or run your application.</td>
-    </tr>
-    <tr>
-      <td>config/</td>
-      <td>Configure your application's runtime rules, routes, database, and more.  This is covered in more detail in <a href="configuring.html">Configuring Rails Applications</a>
-      </td>
-    </tr>
-    <tr>
-      <td>config.ru</td>
-      <td>Rack configuration for Rack based servers used to start the application.</td>
-    </tr>
-    <tr>
-      <td>db/</td>
-      <td>Contains your current database schema, as well as the database migrations.</td>
-    </tr>
-    <tr>
-      <td>Gemfile<br>Gemfile.lock</td>
-      <td>These files allow you to specify what gem dependencies are needed for your Rails application. These files are used by the Bundler gem. For more information about Bundler, see <a href="http://gembundler.com">the Bundler website</a>
-      </td>
-    </tr>
-    <tr>
-      <td>lib/</td>
-      <td>Extended modules for your application.</td>
-    </tr>
-    <tr>
-      <td>log/</td>
-      <td>Application log files.</td>
-    </tr>
-    <tr>
-      <td>public/</td>
-      <td>The only folder seen to the world as-is. Contains the static files and compiled assets.</td>
-    </tr>
-    <tr>
-      <td>Rakefile</td>
-      <td>This file locates and loads tasks that can be run from the command line. The task definitions are defined throughout the components of Rails. Rather than changing Rakefile, you should add your own tasks by adding files to the lib/tasks directory of your application.</td>
-    </tr>
-    <tr>
-      <td>README.rdoc</td>
-      <td>This is a brief instruction manual for your application. You should edit this file to tell others what your application does, how to set it up, and so on.</td>
-    </tr>
-    <tr>
-      <td>test/</td>
-      <td>Unit tests, fixtures, and other test apparatus. These are covered in <a href="testing.html">Testing Rails Applications</a>
-      </td>
-    </tr>
-    <tr>
-      <td>tmp/</td>
-      <td>Temporary files (like cache, pid and session files)</td>
-    </tr>
-    <tr>
-      <td>vendor/</td>
-      <td>A place for all third-party code. In a typical Rails application, this includes Ruby Gems and the Rails source code (if you optionally install it into your project).</td>
-    </tr>
-  </tbody>
-</table>
+`config/` : contient la configuration de l'application : routes, credentials, etc.
+
+`db/` : contient les fichiers de la base de donnée SQLite.
+
+`Gemfile` : spécifie les dépendances utilisées par l'application.
+
+`public` : contient les resources web statiques de l'application.
+
+`Rakefile` : spécifie les tâches de construction automatisée de l'application.
+
+`test` : contient le code de test de l'application.
+
+Source: [http://guides.rubyonrails.org/getting_started.html#creating-the-blog-application](http://guides.rubyonrails.org/getting_started.html#creating-the-blog-application)
 
 !SLIDE bullets small
 ## Génération de code (1/3)
@@ -203,7 +146,7 @@ Dans `config/routes.rb` ajoutons la ligne suivante entre `do` et
 ## CRUD RESTful
 
 Pour mieux comprendre les interactions entre les vues et les
-controlleurs, ajoutons l'affichage des paramètres de la requête 
+contrôlleurs, ajoutons l'affichage des paramètres de la requête 
 dans le fichier `app/views/layout/application.html.erb`:
 
     @@@ html
@@ -211,5 +154,3 @@ dans le fichier `app/views/layout/application.html.erb`:
       <%= yield %>
       <%= debug(params) if Rails.env.development? %>
     </body>
-
-
