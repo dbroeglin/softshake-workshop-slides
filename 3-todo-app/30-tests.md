@@ -294,8 +294,8 @@ i.e. que Task.new.completed value false au lieu de NULL.
 
 - Générer une nouvelle migration :
 
-      @@@ sh
-      rails g migration add_default_value_to_completed
+        @@@ sh
+        rails g migration add_default_value_to_completed
 
 - Editer `db/migrate/*_add_default_value_to_completed.rb` :
 
