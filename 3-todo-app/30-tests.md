@@ -117,7 +117,7 @@ Cf. [http://guides.rubyonrails.org/association_basics.html](http://guides.rubyon
 !SLIDE bullets smaller
 ## De rouge à vert
 
-- Ajoutons une colonne project_id à la table Task.
+- Ajoutons une colonne `project_id` à la table `TASK`.
 - Créer une nouvelle migration :
 
         @@@ sh
@@ -219,27 +219,10 @@ On aimerait limiter les projets aux projets en cours.
         <div class="field">
           <%= f.label :project %><br>
           <%= f.select :project_id, 
-                @projects.map {|p| [p.title, p.id]} %>
+                Project.ongoing.map {|p| [p.title, p.id]} %>
         </div>
 
-- et le contrôleur :
-
-        @@@ Ruby
-        # GET /tasks/new
-        def new
-          @task = Task.new
-          @projects = Project.ongoing # ajouter
-        end
-
-        # GET /tasks/1/edit
-        def edit
-          @projects = Project.ongoing # ajouter
-        end
-
-!SLIDE bullets smaller
-## Le test nous permet un _refactoring_ (2/2)
-
-- et finalement le modèle.
+- et le modèle :
 
         @@@ Ruby
         class Project < ActiveRecord::Base
@@ -248,11 +231,15 @@ On aimerait limiter les projets aux projets en cours.
           end
         end
 
+!SLIDE bullets small
+## Le test nous permet un _refactoring_ (2/2)
+
 - Lancer les tests :
 
         @@@ sh
         rake test
 
+- Oups...
 - Editer `test/fixtures/projetcs.yml` et supprimer `due_date` 
 pour `one` :
 
@@ -260,7 +247,6 @@ pour `one` :
         one:
           title: MyString
           completed: false
-
 
 !SLIDE bullet small
 ## Exercices:

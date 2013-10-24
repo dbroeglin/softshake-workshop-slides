@@ -58,33 +58,6 @@ Les autres retournent 'false'.
 
         t.errors[:title].any?
 
-
-!SLIDE bullets small
-## Tester la validation dans le browser, une correction
-
-- Créer une nouvelle tâche sans titre. Oups: `@projects` est `nil`
-
-- Réinitialiser la variable d'instance `@projects `
-
-        @@@ Ruby
-        def create
-          @task = Task.new(task_params)
-
-          respond_to do |format|
-            if @task.save
-              format.html { redirect_to @task,
-                            notice: 'Task was successfully created.' }
-              format.json { render action: 'show',
-                            status: :created, location: @task }
-            else
-              @projects = Project.all # ligne à ajouter
-              format.html { render action: 'new' }
-              format.json { render json: @task.errors,
-                            status: :unprocessable_entity }
-            end
-          end
-        end
-
 !SLIDE bullets small
 ## Exercices
 

@@ -15,7 +15,7 @@
 
 Ajouter dans le fichier `Gemfile` les lignes suivantes :
 
-    @@@ Ruby 
+    @@@ Ruby
     ruby "1.9.3"
 
     group :production do
@@ -35,59 +35,55 @@ par :
         gem 'sqlite3'
     end
 
+Exécuter :
+
+    @@@ sh
+    $ bundle install
 
 !SLIDE bullets small
 .notes TODO: verify it's working
 ## Adapter la config db
 
-Modifier config/database.yml, la section:
+- Modifier `config/database.yml`. La section :
 
-    @@@ Ruby 
-    production:
-      adapter: sqlite3
-      database: db/production.sqlite3
-      pool: 5
-      timeout: 5000
+        @@@ Ruby
+        production:
+          adapter: sqlite3
+          database: db/production.sqlite3
+          pool: 5
+          timeout: 5000
 
-devient:
+- devient:
 
-    @@@ Ruby
-    production:
-      adapter: postgresql
-      encoding: unicode
-      database: myapp_production
-      pool: 5
-      username: myapp
-      password:
-
-!SLIDE bullets small
-## Installer les dépendances
-
-    @@@ sh
-    $ bundle install
+        @@@ Ruby
+        production:
+          adapter: postgresql
+          encoding: unicode
+          database: myapp_production
+          pool: 5
+          username: myapp
+          password:
 
 
-!SLIDE bullets small
-## Initialiser un repo git
+!SLIDE bullets smaller
+## Déploiement
 
-    @@@ sh 
-    $ git init
-    $ git add .
-    $ git commit -m "init"
+- Créer un référentiel Git :
+
+        @@@ sh
+        git init
+        git add .
+        git commit -m "init"
 
 
-!SLIDE bullets small
-## Créer l'app sur heroku
-    
-    @@@ sh 
-    $ heroku create
+- Créer l'app sur heroku :
 
-On déploit
+        @@@ sh
+        heroku create
 
-    @@@ sh
-    $ git push heroku master
-    $ heroku run rake db:migrate
-    $ heroku open
+- Déployer :
 
-Enjoy : )
-
+        @@@ sh
+        git push heroku master
+        heroku run rake db:migrate
+        heroku open

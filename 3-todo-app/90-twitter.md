@@ -20,7 +20,7 @@
 !SLIDE bullets small
 # Configuration du compte Twitter
 
-Créer le fichier `config/initializers/twitter_tokens.rb` avec le
+- Créer le fichier `config/initializers/twitter_tokens.rb` avec le
 contenu suivant :
 
         @@@ Ruby
@@ -59,7 +59,7 @@ contenu suivant :
 
         module TwitterService
           def self.tweet_task(task, client=Twitter)
-            client.update("I did it #{Time.now}: #{task.title}")
+            client.update("I did '#{task.title}' at #{Time.now.to_s(:short)}")
           end
         end
 
