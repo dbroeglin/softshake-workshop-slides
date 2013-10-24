@@ -62,13 +62,13 @@ Oups... :-(
 - La solution est dans les messages d'erreur
 
         @@@ Ruby
-        $ rake db:migrate RAILS_ENV=development
+        rake db:migrate RAILS_ENV=development
 
 - Rafraîchir le browser: [localhost:3000/tasks](localhost:3000/tasks)
   :-)
 
         @@@ Ruby
-        # db/migrate/20131012094430_create_tasks.rb
+        # db/migrate/*_create_tasks.rb
         class CreateTasks < ActiveRecord::Migration
           def change
             create_table :tasks do |t|
@@ -109,7 +109,7 @@ Indice: `tasks#index` → `TaskController.index`
 !SLIDE bullets small
 ## CRUD RESTful
 
-Editons `app/controller/tasks_controller.rb` :
+Editons `app/controllers/tasks_controller.rb` :
 
     @@@ Ruby 
     # GET /tasks
@@ -142,12 +142,17 @@ Dans `config/routes.rb` ajoutons la ligne suivante entre `do` et
     @@@ Ruby
     root "tasks#index"
 
+après :
+
+    @@@ Ruby
+    resources :tasks
+
 !SLIDE bullets small
 ## CRUD RESTful
 
 Pour mieux comprendre les interactions entre les vues et les
 contrôlleurs, ajoutons l'affichage des paramètres de la requête 
-dans le fichier `app/views/layout/application.html.erb`:
+dans le fichier `app/views/layouts/application.html.erb` :
 
     @@@ html
     <body>

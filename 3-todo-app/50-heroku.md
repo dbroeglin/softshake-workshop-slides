@@ -38,7 +38,7 @@ par :
 Exécuter :
 
     @@@ sh
-    $ bundle install
+    bundle install
 
 !SLIDE bullets small
 .notes TODO: verify it's working

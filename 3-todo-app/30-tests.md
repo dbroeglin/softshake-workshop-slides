@@ -88,15 +88,13 @@ Cf. [http://guides.rubyonrails.org/association_basics.html](http://guides.rubyon
         t = Task.new
         t.project
         t.project = p
-        t.project
-        t.save
 
 - Oups...
 
 !SLIDE bullets small
 # Et si on testait ?
 
-- Editer le fichier `test/models/taks_test.rb` :
+- Editer le fichier `test/models/task_test.rb` :
 
         @@@ Ruby
         class TaskTest < ActiveSupport::TestCase
@@ -138,10 +136,10 @@ Cf. [http://guides.rubyonrails.org/association_basics.html](http://guides.rubyon
         rake db:migrate
 
 
-!SLIDE bullets
+!SLIDE bullets small
 ## Test d'intégration
 
-- Nous allons utiliser Capybara.
+- Nous allons utiliser Capybara un framework qui :
   - Utilise Selenium
   - Simule les interactions d'un utilisateur réèl
   - Fournit un DSL simplifié
@@ -199,21 +197,28 @@ Cf. https://github.com/jnicklas/capybara
 !SLIDE bullets small
 ## Faisons passer le test
 
-Editons app/views/tasks/_form.html.erb
+- Editons app/views/tasks/_form.html.erb
 
-    @@@ html
-    <div class="field">
-      <%= f.label :project %>
-      <%= f.select :project_id,
-            Project.all.map {|p| [p.title, p.id]} %>
-    </div>
+       @@@ html
+       <div class="field">
+         <%= f.label :project %>
+         <%= f.select :project_id,
+               Project.all.map {|p| [p.title, p.id]} %>
+       </div>
+
+- Exécuter `rails console` et entrer :
+
+        @@@ ruby
+        Project.create(title: "Learn Rails", 
+            due_date: Date.today + 1)
+        Project.create(title: "Master Rails")
 
 !SLIDE bullets small
 ## Le test nous permet un _refactoring_ (1/2)
 
 On aimerait limiter les projets aux projets en cours.
 
-- Modifier le formulaire :
+- Modifier le form `app/views/tasks/_form.html.erb` :
 
         @@@ html
         <div class="field">
@@ -222,7 +227,7 @@ On aimerait limiter les projets aux projets en cours.
                 Project.ongoing.map {|p| [p.title, p.id]} %>
         </div>
 
-- et le modèle :
+- et le modèle `app/models/project.rb` :
 
         @@@ Ruby
         class Project < ActiveRecord::Base
@@ -240,7 +245,7 @@ On aimerait limiter les projets aux projets en cours.
         rake test
 
 - Oups...
-- Editer `test/fixtures/projetcs.yml` et supprimer `due_date` 
+- Editer `test/fixtures/projects.yml` et supprimer `due_date` 
 pour `one` :
 
         @@@ Ruby
@@ -258,8 +263,8 @@ pour `one` :
 !SLIDE bullets small
 # Evolution du modèle (1/2)
 
-On aimerait que les nouvelles tâches soit incomplète par défaut,
-i.e. que Task.new.completed value false au lieu de NULL.
+On aimerait que les nouvelles tâches soit incomplètes par défaut,
+i.e. que `Task.new.completed` vaille `false` au lieu de `NULL`.
 
 - Ajouter un test dans `test/models/task_test.rb` :
 
@@ -322,8 +327,8 @@ Au passage, enlever le boutton "show" qui n'a pas beaucoup de sens.
         test "user can mark a task as done from the task list" do
           visit(tasks_path)
           within(first(:css, 'tbody tr')) do
-            assert has_content? 'false'
-            has_link? 'I did it'
+            assert has_content?('false'), 'should have false'
+            assert has_link?('I did it'), 'should have link'
           end
         end
 
@@ -377,11 +382,11 @@ Au passage, enlever le boutton "show" qui n'a pas beaucoup de sens.
         test "user can mark a task as done from the task list" do
           visit(tasks_path)
           within(first(:css, 'tbody tr')) do
-            assert has_content? 'false'
+            assert has_content?('false'), "should have false"
             click_on 'I did it'
           end
           within(first(:css, 'tbody tr')) do
-            assert has_content? 'true'
+            assert has_content?('true'), "should have true"
           end
         end
 

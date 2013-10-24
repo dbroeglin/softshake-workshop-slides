@@ -19,6 +19,7 @@
 
 - Relancer le serveur.
 
+
 !SLIDE bullets small
 .notes TODO: is this one necessary ?
 ## Configurer l'asset pipeline
@@ -35,6 +36,8 @@ contenant `config.assets.precompile`
             # ...
           end
         end
+
+- Relancer le serveur.
 
 !SLIDE bullets smaller
 ## Un CSS sur mesure
@@ -66,7 +69,7 @@ contenant `config.assets.precompile`
 !SLIDE bullets smaller
 ## Conteneur et sauts de ligne
 
-- Dans le fichier `app/views/layout/application.html.erb` remplacer :
+- Dans le fichier `app/views/layouts/application.html.erb` remplacer :
 
         @@@ html
         <%= yield %>
