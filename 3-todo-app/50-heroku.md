@@ -11,7 +11,7 @@
 [https://devcenter.heroku.com/articles/getting-started-with-rails4](https://devcenter.heroku.com/articles/quickstart)
 
 !SLIDE bullets small
-# Utilisation de PostgreSQL en production
+## Utilisation de PostgreSQL en production
 
 Ajouter dans le fichier `Gemfile` les lignes suivantes :
 
@@ -37,20 +37,21 @@ par :
 
 
 !SLIDE bullets small
-## La config db
 .notes TODO: verify it's working
-# modifier la config db
+## Adapter la config db
 
-Modifier config/database.yml
+Modifier config/database.yml, la section:
 
-    @@@ ruby 
+    @@@ Ruby 
     production:
       adapter: sqlite3
       database: db/production.sqlite3
       pool: 5
       timeout: 5000
 
-    # devient:
+devient:
+
+    @@@ Ruby
     production:
       adapter: postgresql
       encoding: unicode
