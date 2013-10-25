@@ -199,12 +199,12 @@ Cf. https://github.com/jnicklas/capybara
 
 - Editons app/views/tasks/_form.html.erb
 
-       @@@ html
-       <div class="field">
+        @@@ html
+        <div class="field">
          <%= f.label :project %>
          <%= f.select :project_id,
                Project.all.map {|p| [p.title, p.id]} %>
-       </div>
+        </div>
 
 - Exécuter `rails console` et entrer :
 
