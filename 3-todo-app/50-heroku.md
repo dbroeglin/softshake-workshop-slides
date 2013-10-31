@@ -44,7 +44,6 @@ bundle install
 ```
 
 !SLIDE bullets small
-.notes TODO: verify it's working
 ## Adapter la config db
 
 - Modifier `config/database.yml`. La section :

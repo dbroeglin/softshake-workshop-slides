@@ -179,7 +179,6 @@ end
 ```
 
 !SLIDE bullets small
-.notes Expliquer le test d'intégration. Expliquer Selenium si nécéssaire
 ## Un test d'intégration
 
 - Générer le fichier de test :
@@ -205,6 +204,8 @@ class TaskFlowsTest < ActionDispatch::IntegrationTest
   end
 end
 ```
+
+.notes: Expliquer le test d'intégration. Expliquer Selenium si nécéssaire
 
 !SLIDE bullets small
 ## Faisons passer le test
@@ -279,7 +280,7 @@ one:
 3. Lister les tâches par projet.
 
 !SLIDE bullets small
-# Evolution du modèle (1/2)
+## Evolution du modèle (1/2)
 
 On aimerait que les nouvelles tâches soit incomplètes par défaut,
 i.e. que `Task.new.completed` vaille `false` au lieu de `NULL`.
@@ -300,7 +301,7 @@ rake test
 ```
 
 !SLIDE bullets smaller
-# Evolution du modèle (2/2)
+## Evolution du modèle (2/2)
 
 - Générer une nouvelle migration :
 
