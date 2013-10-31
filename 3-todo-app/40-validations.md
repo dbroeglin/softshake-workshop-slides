@@ -1,4 +1,3 @@
-!SLIDE subsection
 # Validation des entrées
 
 !SLIDE bullets small

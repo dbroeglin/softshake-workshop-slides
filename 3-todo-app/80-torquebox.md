@@ -1,4 +1,3 @@
-!SLIDE subsection
 .notes live coding
 # Java: Deploiement dans Torquebox
 

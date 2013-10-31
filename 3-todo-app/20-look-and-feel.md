@@ -1,4 +1,3 @@
-!SLIDE subsection
 # Esthétique
 
 ## Twitter Bootstrap

@@ -1,5 +1,3 @@
-!SLIDE subsection
-.notes first slide
 
 # Notre première application Ruby on Rails 
 «Let's build a TODO app!»

@@ -1,4 +1,3 @@
-!SLIDE subsection
 # La tête dans les nuages
 
 ## Déploiement sous Heroku

@@ -1,4 +1,3 @@
-!SLIDE subsection
 # Installation de Ruby on Rails
 
 !SLIDE bullets small

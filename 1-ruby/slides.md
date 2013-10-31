@@ -1,4 +1,3 @@
-!SLIDE subsection
 # Introduction à Ruby
 
 «Ruby is designed to make programmers happy» Yukihiro Matsumoto

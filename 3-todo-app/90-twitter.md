@@ -1,4 +1,3 @@
-!SLIDE bullets small
 # Egocentric Todo
 - On aimerait tweeter chaque tâche accomplie sur le compte twitter @softshake_ruby
 - [https://twitter.com/softshake_ruby](https://twitter.com/softshake_ruby)

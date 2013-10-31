@@ -1,4 +1,3 @@
-!SLIDE title-slide
 # Atelier
 # Introduction à Ruby on Rails
 

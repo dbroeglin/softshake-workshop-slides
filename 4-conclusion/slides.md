@@ -1,4 +1,3 @@
-!SLIDE subsection
 # Conclusion
 
 !SLIDE bullet small
