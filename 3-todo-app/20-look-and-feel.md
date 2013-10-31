@@ -68,7 +68,7 @@ table {
 - Dans le fichier `app/views/layouts/application.html.erb` remplacer :
 
 ```html
-        <%= yield %>
+<%= yield %>
 ```
 
   par :

@@ -24,11 +24,11 @@ rails server
 !SLIDE bullets small
 ### Structure d'un projet rails
 
-`app/` : contient le code de l'application : vues, modèles, contrôlleurs, etc.
+`app` : contient le code de l'application : vues, modèles, contrôlleurs, etc.
 
-`config/` : contient la configuration de l'application : routes, credentials, etc.
+`config` : contient la configuration de l'application : routes, credentials, etc.
 
-`db/` : contient les fichiers de la base de donnée SQLite.
+`db` : contient les fichiers de la base de donnée SQLite.
 
 `Gemfile` : spécifie les dépendances utilisées par l'application.
 

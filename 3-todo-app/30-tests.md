@@ -35,7 +35,7 @@ rake db:migrate
 ```
 
 Par convention un objet Project sera lié à une table Projects.  
-La table injecte ses colonnes au modèle.
+La table injecte ses colonnes dans le modèle.
 
 !SLIDE bullets small
 ## Associations (1/2)
