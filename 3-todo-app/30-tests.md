@@ -97,7 +97,7 @@ t.project = p
 - Oups...
 
 !SLIDE bullets small
-# Et si on testait ?
+## Et si on testait ?
 
 - Editer le fichier `test/models/task_test.rb` :
 
@@ -428,11 +428,9 @@ rake test
 !SLIDE bullets smaller
 ## «Faciliter la tâche»
 
-- Editer le fichier `app/controllers/tasks_controller.rb` :
+- Editer le fichier `app/controllers/tasks_controller.rb` et définir la méthode `complete` :
 
 ```ruby
-before_action :set_task, only: [:show, :edit, :update,
-                               :destroy, :complete]
 # ...
 def complete
   respond_to do |format|
@@ -449,6 +447,19 @@ def complete
                       status: :unprocessable_entity }
     end
   end
+end
+```
+
+!SLIDE bullets smaller
+## «Faciliter la tâche»
+
+- Dans le même fichier rajouter la méthode `complete` à la liste des méthodes qui ont le filtre d'action `set_task`.
+
+```ruby
+class TasksController < ApplicationController
+  before_action :set_task, only: [:show, :edit, :update,
+                                 :destroy, :complete]
+  # ...
 end
 ```
 

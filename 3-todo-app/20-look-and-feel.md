@@ -50,16 +50,13 @@ end
 form {
   @extend .form-inline;
 }
-
 label {
   @extend .input-small;
   font-weight: bold;
 }
-
 .field {
   margin: 10pt;
 }
-
 table {
   @extend .table;
 }

@@ -67,6 +67,8 @@ rake db:migrate RAILS_ENV=development
 - Rafraîchir le browser: [localhost:3000/tasks](localhost:3000/tasks)
   :-)
 
+- La fichier de migration :
+
 ```ruby
 # db/migrate/*_create_tasks.rb
 class CreateTasks < ActiveRecord::Migration
@@ -137,7 +139,7 @@ Par convention, la vue sera `app/views/tasks/index.html.erb`
 !SLIDE bullets small
 ## CRUD RESTful
 
-## Faisons pointer la racine sur la liste des tâches
+### Faisons pointer la racine sur la liste des tâches
 
 Dans `config/routes.rb` ajoutons la ligne suivante entre `do` et
 `end`:
