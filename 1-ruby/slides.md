@@ -63,7 +63,7 @@ String.class
 Si ça ressemble à un canard, si ça nage comme un canard et si ça
 cancane comme un canard, c'est qu'il s'agit sans doute d'un canard.
 
-![quack](slides/1-ruby/duck_typing.jpg)
+![quack](/1-ruby/duck_typing.jpg)
 
 !SLIDE bullets small
 ## "Duck typing" (2/2)

@@ -7,7 +7,7 @@
 - Ajoutons une notion de Projet. Chaque tâche sera 
 associée à un projet.
 
-![Task-Project class diagram](/slides/3-todo-app/class_diagram.png)
+![Task-Project class diagram](/3-todo-app/class_diagram.png)
 
 Rails utilise le patron de conception (_design pattern_)
   ActiveRecord (cf. _Patterns of Enterprise Application Architecture_
@@ -62,7 +62,7 @@ Cf. [http://guides.rubyonrails.org/association_basics.html](http://guides.rubyon
 !SLIDE bullets small
 ## Associations (2/2)
 
-![Task-Project class diagram](/slides/3-todo-app/class_diagram.png)
+![Task-Project class diagram](/3-todo-app/class_diagram.png)
 
 -  Pour associer chaque Tâche à un Projet modifier le fichier
    `app/models/task.rb` :

@@ -50,7 +50,7 @@ Source: [http://guides.rubyonrails.org/getting_started.html#creating-the-blog-ap
 rails generate scaffold task title:string completed:boolean
 ```
 
-![scaffold](scaffold.png)
+![scaffold](3-todo-app/scaffold.png)
 
 !SLIDE bullets
 ## Génération de code (2/3)
