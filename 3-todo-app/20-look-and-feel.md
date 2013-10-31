@@ -21,7 +21,6 @@ bundle install
 - Relancer le serveur.
 
 !SLIDE bullets small
-.notes TODO: is this one necessary ?
 ## Configurer l'asset pipeline
 
 - Dans le fichier `config/application.rb` ajouter la ligne 

@@ -22,8 +22,7 @@ rails server
 ```
 
 !SLIDE bullets small
-.notes TODO: translate 
-## Structure d'un projet rails
+### Structure d'un projet rails
 
 `app/` : contient le code de l'application : vues, modèles, contrôlleurs, etc.
 
