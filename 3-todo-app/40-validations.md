@@ -7,13 +7,14 @@
 - Elles ont lieu au moment de la persistence.
 - Les méthodes qui lancent les validations sont :
 
-        @@@ Ruby
-        create
-        create!
-        save
-        save!
-        update
-        update!
+```ruby
+create
+create!
+save
+save!
+update
+update!
+```
 
 Les versions avec '!' lancent une exception en cas de problème.  
 Les autres retournent 'false'.
@@ -23,40 +24,43 @@ Les autres retournent 'false'.
 
 - Ajouter `test/models/task_test.rb` dans le test :
 
-        @@@ Ruby
-        test "title should be present"  do
-          t = Task.create
+```ruby
+test "title should be present"  do
+  t = Task.create
 
-          assert_match(/can't be blank/, t.errors[:title].first)
-        end
+  assert_match(/can't be blank/, t.errors[:title].first)
+end
+```
 
 - Ajouter la ligne suivante dans le modèle 
 `app/models/task.rb` :
 
-        @@@ ruby
-        class Task < ActiveRecord::Base
-          validates :title, presence: true
-          # ...
-        end
+```ruby
+class Task < ActiveRecord::Base
+  validates :title, presence: true
+  # ...
+end
+```
 
 !SLIDE bullets small
 ## Illustration dans la console Rails
 
 - Lancer la console `rails console` et entrer :
 
-        @@@ ruby
-        t = Task.new
-        t.errors # pas d'erreur encore
-        t.valid? # exécution de la validation
-        t.errors
+```ruby
+t = Task.new
+t.errors # pas d'erreur encore
+t.valid? # exécution de la validation
+t.errors
 
-        t = Task.create
-        t.errors # des erreurs sont présentes
+t = Task.create
+t.errors # des erreurs sont présentes
 
-        t.save
-        t.save!  # lance une exception
+t.save
+t.save!  # lance une exception
 
-        t.errors[:title].any?
+t.errors[:title].any?
+```
 
 !SLIDE bullets small
 ## Exercices

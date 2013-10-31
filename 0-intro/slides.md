@@ -1,6 +1,4 @@
 !SLIDE title-slide
-.notes David and Dominique present themselves ;-)
-
 # Atelier
 # Introduction à Ruby on Rails
 
@@ -9,7 +7,7 @@
 ### @dbroeglin, @David_Hodgetts
 
 !SLIDE bullets
-# Programme
+## Programme
 
 - Rapide introduction à Ruby on Rails
 - Introduction à Ruby
@@ -20,14 +18,14 @@
 # Ruby on Rails : Introduction
 
 !SLIDE bullets
-# La philosophie Rails
+## La philosophie Rails
 
 - __Convention__ plutôt que __Configuration__
 - Don't Repeat Yourself (DRY)
 - Bonnes pratiques (tests, migrations, etc.)
 
 !SLIDE bullets
-# Patron de conception
+## Patron de conception
 
 - **M**odèle
 - **V**ue

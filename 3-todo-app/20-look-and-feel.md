@@ -9,16 +9,17 @@
 ## Ajouter _bootstrap_
 - Ajouter dans le fichier `Gemfile` :
 
-        @@@ Ruby
-        gem 'bootstrap-sass', '2.3.2.0'
+```ruby
+gem 'bootstrap-sass', '2.3.2.0'
+```
 
 - Installer la gem :
 
-        @@@ sh
-        bundle install
+```ruby
+bundle install
+```
 
 - Relancer le serveur.
-
 
 !SLIDE bullets small
 .notes TODO: is this one necessary ?
@@ -27,15 +28,15 @@
 - Dans le fichier `config/application.rb` ajouter la ligne 
 contenant `config.assets.precompile`
 
-        @@@ Ruby
-        # config/application.rb
-        module Todo
-          class Application < Rails::Application
-            # ...
-            config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
-            # ...
-          end
-        end
+```ruby
+module Todo
+  class Application < Rails::Application
+    # ...
+    config.assets.precompile += %w(*.png *.jpg *.jpeg *.gif)
+    # ...
+  end
+end
+```
 
 - Relancer le serveur.
 
@@ -45,41 +46,43 @@ contenant `config.assets.precompile`
 - Effacer `app/assets/stylesheets/scaffolds.css.scss`
 - Ajouter dans `app/assets/stylesheets/tasks.css.scss` :
 
-        @@@ css
-        @import "bootstrap";
+```css
+@import "bootstrap";
 
-        form {
-          @extend .form-inline;
-        }
+form {
+  @extend .form-inline;
+}
 
-        label {
-          @extend .input-small;
-          font-weight: bold;
-        }
+label {
+  @extend .input-small;
+  font-weight: bold;
+}
 
-        .field {
-          margin: 10pt;
-        }
+.field {
+  margin: 10pt;
+}
 
-        table {
-          @extend .table;
-        }
-
+table {
+  @extend .table;
+}
+```
 
 !SLIDE bullets smaller
 ## Conteneur et sauts de ligne
 
 - Dans le fichier `app/views/layouts/application.html.erb` remplacer :
 
-        @@@ html
+```html
         <%= yield %>
+```
 
   par :
 
-        @@@ html
-        <div class="container">
-          <%= yield %>
-        </div>
+```html
+<div class="container">
+  <%= yield %>
+</div>
+```
 
 - Dans le fichier `app/views/tasks/_form.html.erb` supprimer tous les tags
 `<br>`.
